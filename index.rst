@@ -14,12 +14,18 @@ Debugging Python
 Things about Python
 -------------------
 
- - Indentation
+ - Syntax errors directly raise an error
+   - Indentation
  - Scoping
    - Setting a name defined in a higher scope defines it in this one.
  - Lists:
    - As a default argument (default arguments are evaluated only once...)
    - Mutated in functions
+ - Dependency issues!
+   - Is the package in
+     - system folders
+     - pip folders
+     - conda, pipenv, ...
 
 
 Error Messages
@@ -31,6 +37,9 @@ Error Messages
 
 The Python Debugger
 -------------------
+
+ - Introduce pdp
+ - Using ipdp (IPython debugger) in Jupyter
 
 
 
