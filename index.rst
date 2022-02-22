@@ -74,13 +74,17 @@ Scoping
 Dependency issues
 *****************
 
-There are many ways to install a package and these don't always work together.
-
 Python looks for packages in
 
-  1. Users own Python packages (in $HOME/.local/lib/python...)
-  2. System directories (like /usr/local in Linux)
+  1. First in users own Python packages (in $HOME/.local/lib/python...)
+  2. Then system directories (like /usr/local in Linux)
 
+The same is true when uninstalling packages with pip.
+So if you're not sure where a package is, uninstall it
+at least twice.
+
+
+There are many ways to install a package and these don't always work together.
 
  - System package manager (apt, ...)
 
@@ -94,7 +98,7 @@ Python looks for packages in
 
       pip install scipy
 
-   - Don't mix with apt or other system installers. They don't track each other.
+   - Don't mix pip with system installers. They don't track each others packages, but do install in the same place.
 
  - User level pip
 
@@ -105,15 +109,21 @@ Python looks for packages in
    - Don't need to be admin
    - These will be checked first when importing
 
- - conda / mamba
+Virtual environments make dependency management easier.
+They essentially force Python to look for packages in
+one place. This way you always know what packages your
+software needs, and when you get stuck with dependency
+problems, you can remove the environment and reinstall.
 
-   .. code-block:: console
+Examples of virtual environment managers for Python:
 
-      conda install scipy
+ - Pipenv
 
-   - Easy to manage environments
-   - Can install system libraries
-   - To use pip, always run
+ - Virtualenv
+
+ - Conda / Mamba
+
+   - To use pip with conda, always run
 
      .. code-block:: console
 
@@ -123,9 +133,42 @@ Python looks for packages in
 Error Messages
 --------------
 
- - A couple of examples
+Try running
 
-   - Main points: how to read the stack trace, find the line in your code
+.. code-block:: console
+
+    python examples/divide_by_zero.py
+
+This will throw an error:
+
+.. code-block:: console
+
+    Traceback (most recent call last):
+    File "examples/divide_by_zero.py", line 32, in <module>
+      averages = conditional_averages(numbers)
+    File "examples/divide_by_zero.py", line 24, in conditional_averages
+      average = calc_average(copy)
+    File "examples/divide_by_zero.py", line 14, in calc_average
+      return enum / denom
+    ZeroDivisionError: division by zero
+
+Whenever Python encounters an error, it prints a
+traceback like the one above. It's best to start
+reading of from bottom.
+
+The last line shows the error that was encountered,
+and often some useful additional information. In this
+case all we get is "division by zero", which is good
+to know but does not tell us exactly what's wrong.
+
+The two lines above give us the line where the problem
+is. Usually there are several lines in libraries we
+did not write ourselves, so keep reading until you
+find one you can edit.
+
+Maybe you can figure out the problem, but if it's not
+obvious, we will use a debugger to figure it out in
+the next section.
 
 
 The Python Debugger
