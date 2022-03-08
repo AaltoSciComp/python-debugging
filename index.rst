@@ -90,13 +90,13 @@ There are many ways to install a package and these don't always work together.
 
    .. code-block:: console
 
-      apt install python-scipy
+      $ apt install python-scipy
 
  - System level pip
 
    .. code-block:: console
 
-      pip install scipy
+      $ pip install scipy
 
    - Don't mix pip with system installers. They don't track each others packages, but do install in the same place.
 
@@ -104,7 +104,7 @@ There are many ways to install a package and these don't always work together.
 
    .. code-block:: console
 
-      pip install --user scipy
+      $ pip install --user scipy
 
    - Don't need to be admin
    - These will be checked first when importing
@@ -127,7 +127,7 @@ Examples of virtual environment managers for Python:
 
      .. code-block:: console
 
-        conda install pip
+        $ conda install pip
 
 
 Error Messages
@@ -137,7 +137,7 @@ Try running
 
 .. code-block:: console
 
-    python examples/divide_by_zero.py
+    $ python examples/divide_by_zero.py
 
 This will throw an error:
 
