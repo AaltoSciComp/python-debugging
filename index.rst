@@ -166,18 +166,56 @@ is. Usually there are several lines in libraries we
 did not write ourselves, so keep reading until you
 find one you can edit.
 
-Maybe you can figure out the problem, but will use a debugger to figure it out in
-the next section.
+Maybe you can figure out the problem, but will use a debugger to figure it out
+in the next section.
 
 
 The Python Debugger
 -------------------
 
+The Python debugger, pdb, can be used to inspect the state of the program
+while it's running. Pdb is a standard Python library, so you don't need to
+install it.
 
+The most common way of using it is running `pdp.set_trace()` in your script.
 
- - Introduce pdp
+.. code-block:: python
 
- - Using ipdp (IPython debugger) in Jupyter
+    import pdb
+
+    ...
+
+    pdp.set_trace()
+
+When Python reaches this line, it will pause and open a pdb prompt:
+
+.. code-block:: console
+
+    $ python examples/divide_by_zero_with_pdp.py
+    > /u/24/rantahj1/unix/src/python-debugging/examples/divide_by_zero.py(16)calc_average()
+    -> return enum / denom
+    (Pdb)
+
+Python has stopped on line 16 of `examples/divide_by_zero_with_pdp.py`. You can
+now look at the values of any variables, run Python functions and even change
+the program state before continuing.
+
+Here are some useful pdb commands:
+
+  - **list:** Print a few lines of code around the current position.
+  - **where:** Print the current position and the functions that were called
+    to get there (same as the stack trace printed when an exception is raised).
+  - **next:** Execute the current line and move to the next one.
+  - **step:** If the line contains a function, move into it. Otherwise execute
+    the current line.
+  - **continue:** Run until the next `pdb.set_trace`
+  - **up**: Move to the function that called this one (up the stack).
+  - **down**: Move to the function called from this one (down the stack).
+  - **p variable:** Print the value of a variable (you can also run
+    `print(variable)`)
+  - **b #**
+  - **b **
+
 
 
 
