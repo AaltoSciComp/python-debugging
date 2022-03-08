@@ -19,9 +19,11 @@ def conditional_averages(numbers):
     averages = []
 
     for i in range(len(numbers)):
-        copy = copy[1:]
         average = calc_average(copy)
         averages.append(average)
+        # The original skips the first number completely.
+        # It should be removed after calculating the average.
+        copy = copy[1:]
 
     return averages
 

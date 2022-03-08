@@ -166,13 +166,14 @@ is. Usually there are several lines in libraries we
 did not write ourselves, so keep reading until you
 find one you can edit.
 
-Maybe you can figure out the problem, but if it's not
-obvious, we will use a debugger to figure it out in
+Maybe you can figure out the problem, but will use a debugger to figure it out in
 the next section.
 
 
 The Python Debugger
 -------------------
+
+
 
  - Introduce pdp
 
