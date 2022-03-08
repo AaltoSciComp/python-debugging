@@ -14,9 +14,33 @@ Debugging Python
 Things about Python
 -------------------
 
+
+Python is duck-typed
+********************
+ - There is no way for the computer to automatically check if you are giving a sane input
+
+Mutable vs unmutable datatypes
+******************************
+ - Mutable types are passed by reference
+ - Unmutable types are passed by value
+ - How do you know if a type is mutable or not?
+   
+Python functions have default values
+************************************
+ - It is not obvious what are the effective parameters in a function call
+ - A mess with multi-level function call hierarchy with default values
+
+How does scoping work?
+**********************
+
+
+
+
 Syntax errors
 *************
 
+ - Python is interpretted
+   - There is no compilation phase, just syntax checking, then runtime
  - Directly raise an error
  - Indentation problems most common
    - Many text editors can show you different types of white space (tabs, spaces...)
