@@ -1,0 +1,25 @@
+# This file is suitable for using with conda environments.
+#
+# See for example:
+#       https://docs.csc.fi/#support/tutorials/conda/#what-is-conda
+#
+# A shortcut:
+#   wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+#   bash Miniconda3-latest-Linux-x86_64.sh -b -p /MINICONDA/INSTALL/DIR/miniconda3
+#
+# source /MINICONDA/INSTALL/DIR/miniconda3/etc/profile.d/conda.sh
+#
+# conda env create --file conda_environment.yaml
+# conda env update --file conda_environment.yaml
+# conda activate sphinx
+
+name: sphinx
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - ipython
+  - pip
+  - pip:
+      - sphinx
+
