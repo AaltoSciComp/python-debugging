@@ -238,7 +238,7 @@ Here are some useful pdb commands:
   - **p variable:** Print the value of a variable (you can also run
     `print(variable)`)
   - **b #**
-  - **b **
+  - **b**
 
 
 
