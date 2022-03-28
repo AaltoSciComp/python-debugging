@@ -14,6 +14,11 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+# By default, Sphinx expects the master doc to be contents. Read the Docs will set
+# master doc to index instead (or whatever it is you have specified in your settings). 
+# https://stackoverflow.com/questions/56336234/build-fail-sphinx-error-contents-rst-not-found
+master_doc = 'index'
+
 
 # -- Project information -----------------------------------------------------
 
