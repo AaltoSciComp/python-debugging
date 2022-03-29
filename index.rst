@@ -3,25 +3,32 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. contents:: Table of Contents
+	          :depth: 4
+   
 Debugging Python
 ================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 	     
 
+Introduction
+------------
+	     
 The four steps of debugging
----------------------------
+***************************
 
 1. Identify the bug
    
+   - Get a report from user or find an example input that exhibits the problem
    - Find the faulty line or piece of logic
 
 2. Isolate
 
    - Confirm that you have found the problem
-   - Could be e.g. a unit test
+   - Could be e.g. a unit test or a minimal (non)working example
 
 3. Fix
 
@@ -31,65 +38,33 @@ The four steps of debugging
 
    - Check that the bug is fixed and no new bugs were introduced.
    
-In this course we are concentrating on the Identifying phase. It is expected, that as soon as you identify the bug, it is more or less obvious how it should be fixed.
+In this course we are concentrating on the Identifying phase. It is expected, that as soon as you identify the bug, it is more or less obvious how it should be fixed. 
+
+Debugging is the art of identifying inconsistency between the expected and actual operation
+*******************************************************************************************
+
+A problem exists whenever the user expects the system to operate differently from how it actually operates. The issue may lay either in the expectations or in the system.
+
+Sometimes a program does do what the programmer intents it to do, but the user expects some other behaviour. Then the bug is in the user interface (UI), in the application programming interface (API) or in the documentation. For scientific computation this is most often encountered when starting to use a new library or software.
+
+However, we concentrate on the common and basic problem of how to fix your own code. Here the inconsistency is usually between what you mean the computer to do and what you tell the computer to do.
+The key to success is to have sufficiently deep understanding of what your code and the programming language does, to simulate in your mind the program.
+
+This is all just a complicated way to say, that to debug Python succesfully, you need to know the python language and some details of the underlying runtime.
 
 
-One cannot identify a bug without a sufficient understanding of the underlying system.
-To recognice what the programmer has intended to do and what the program actually does.
 
 Thus, we first recapitulate a few key features of the python language. After that we take a look at the python specific tools to help analyse a python program. We conclude with a few words on how to avoid problems.
 
 	     
-Things about Python
--------------------
+Python features relevant for debugging
+--------------------------------------
 
-
-Python is duck-typed
-********************
- - There is no way for the computer to automatically check if you are giving a sane input
-
-Mutable vs immutable datatypes
-******************************
- - https://docs.python.org/3/reference/datamodel.html
- - Mutable types are passed by reference
- - Immutable types are passed by value
- - How do you know if a type is mutable or not?
-
-   - numbers are immutable (e.g. Float)
-   - immutable sequences. 
-
-     - String
-     - Tuples (The objects referenced in a Tuple may be mutable.)
-     - Byte
-
-   - immutable sets:
-      - Frozen set
-
-   - immutable: lists, dictionaries, most objects
-
-   - The contents of a mutable datatype cannot be changed; a new one must be always created:
-
-     .. code-block:: python
-
-		     x = 5
-		     id(x)      # 123456
-		     x = x + 1
-		     id(x)      # 123777
-
-		     y = ['foo']
-		     id(y)      # 234567
-		     y.append('bar')
-		     id(y)      # 234567
-
-	
-Python functions have default values
-************************************
- - It is not obvious what are the effective parameters in a function call
- - A mess with multi-level function call hierarchy with default values
-
-How does scoping work?
-**********************
-
+Datatypes -- weakly and dynamically typed
+*****************************************
+ - Python is weakly typed language in the sence that there is no way to force a specific type e.g. for a function argument.
+ - If the object has the expected methods and instance variables of the expected type, then it is generally of a compatible type. (duck-typing) 
+ - Operators and methods can be overwritten.
 
 
 
@@ -155,7 +130,55 @@ Scoping
         l = append_to_list(2) # [1,2]
 
      append_to will is stored as long as the function append_to_list stays in scope
-	
+
+     - Take special care whith functions with default values calling functions with default values. Best practice is often to use None as the default value and then fill in the default value in the function body.
+   
+
+Mutable vs immutable datatypes as function arguments
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ - There is no way for the computer to automatically check if you are giving a sane input in terms of argument types
+ - https://docs.python.org/3/reference/datamodel.html
+ - Mutable types are passed by reference
+ - Immutable types are passed by value
+ - How do you know if a type is mutable or not?
+
+   - numbers are immutable (e.g. Float)
+   - immutable sequences. 
+
+     - String
+     - Tuples (The objects referenced in a Tuple may be mutable.)
+     - Byte
+
+   - immutable sets:
+      - Frozen set
+
+   - mutable: lists, dictionaries, most objects
+
+   - The contents of a mutable datatype cannot be changed; a new one must be always created:
+
+     .. code-block:: python
+
+		     x = 5
+		     id(x)      # 123456
+		     x = x + 1
+		     id(x)      # 123777
+
+		     y = ['foo']
+		     id(y)      # 234567
+		     y.append('bar')
+		     id(y)      # 234567
+
+
+     
+Garbage collecting
+******************
+
+garbage collection is not guaranteed to happen
+
+ - You cannot rely on the finalizer __del__() to be executed
+ - del only reduces the reference count
+
 
 Dependency issues
 *****************
@@ -215,6 +238,10 @@ Examples of virtual environment managers for Python:
 
         $ conda install pip
 
+Inspecting the source code of packages
+++++++++++++++++++++++++++++++++++++++
+
+Add contents here
 
 Error Messages
 --------------
@@ -255,13 +282,6 @@ find one you can edit.
 Maybe you can figure out the problem, but will use a debugger to figure it out
 in the next section.
 
-Garbage collecting
-******************
-
-garbage collection is not guaranteed to happen
-
- - You cannot rely on the finalizer __del__() to be executed
- - del only reduces the reference count
 
 
 The Python Debugger
@@ -310,6 +330,33 @@ Here are some useful pdb commands:
   - **b #**
   - **b**
   - **until #**
+
+
+pdb with iPython: ipdb
+**********************
+
+Add content here
+
+
+pdb with jupyter
+****************
+
+Use the *%debug* magic command to initiate ipdb
+
+
+
+pdb with spyder
+***************
+
+Add content here
+
+
+
+Alternatives for pdb
+********************
+
+ * https://pypi.org/project/pudb/
+
 
 
 
