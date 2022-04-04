@@ -6,8 +6,9 @@
 .. contents:: Table of Contents
 	          :depth: 4
    
-Debugging Python
-================
+==================
+ Debugging Python
+==================
 
 .. toctree::
    :maxdepth: 4
@@ -15,10 +16,10 @@ Debugging Python
 	     
 
 Introduction
-------------
+============
 	     
 The four steps of debugging
-***************************
+---------------------------
 
 1. Identify the bug
    
@@ -41,7 +42,7 @@ The four steps of debugging
 In this course we are concentrating on the Identifying phase. It is expected, that as soon as you identify the bug, it is more or less obvious how it should be fixed. 
 
 Debugging is the art of identifying inconsistency between the expected and actual operation
-*******************************************************************************************
+-------------------------------------------------------------------------------------------
 
 A problem exists whenever the user expects the system to operate differently from how it actually operates. The issue may lay either in the expectations or in the system.
 
@@ -58,10 +59,10 @@ Thus, we first recapitulate a few key features of the python language. After tha
 
 	     
 Python features relevant for debugging
---------------------------------------
+======================================
 
 Datatypes -- weakly and dynamically typed
-*****************************************
+-----------------------------------------
  - Python is weakly typed language in the sence that there is no way to force a specific type e.g. for a function argument.
  - If the object has the expected methods and instance variables of the expected type, then it is generally of a compatible type. (duck-typing) 
  - Operators and methods can be overwritten.
@@ -69,7 +70,7 @@ Datatypes -- weakly and dynamically typed
 
 
 Syntax errors
-*************
+-------------
 
  - Python is interpretted
    
@@ -81,7 +82,7 @@ Syntax errors
    - Many text editors can show you different types of white space (tabs, spaces...)
 
 Scoping
-*******
+-------
 
  - Setting a name defined in a higher scope defines a new one.
 
@@ -135,7 +136,7 @@ Scoping
    
 
 Mutable vs immutable datatypes as function arguments
-++++++++++++++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  - There is no way for the computer to automatically check if you are giving a sane input in terms of argument types
  - https://docs.python.org/3/reference/datamodel.html
@@ -172,7 +173,7 @@ Mutable vs immutable datatypes as function arguments
 
      
 Garbage collecting
-******************
+------------------
 
 garbage collection is not guaranteed to happen
 
@@ -180,8 +181,10 @@ garbage collection is not guaranteed to happen
  - del only reduces the reference count
 
 
+HOW TO CHECK MEMORY FOOTPRINT SIZE OF OBJECT?
+
 Dependency issues
-*****************
+-----------------
 
 Python looks for packages in
 
@@ -239,12 +242,29 @@ Examples of virtual environment managers for Python:
         $ conda install pip
 
 Inspecting the source code of packages
-++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Add contents here
+
+.. code-block:: python
+
+
+
+		import pdb
+		print(pdb.__file__) # /u/54/sjjamsa/unix/conda/miniconda3/envs/sphinx/lib/python3.10/pdb.py'
+
+
+
+
+ - How to install so that changes to source code do not re-install:
+
+   .. code-block:: console
+
+	$ cd my_package_folder
+        $ pip install -e ./
+   
 
 Error Messages
---------------
+==============
 
 Try running
 
@@ -285,13 +305,14 @@ in the next section.
 
 
 The Python Debugger
--------------------
+===================
 
 The Python debugger, pdb, can be used to inspect the state of the program
 while it's running. Pdb is a standard Python library, so you don't need to
 install it.
 
 The most common way of using it is running `pdp.set_trace()` in your script.
+(Since version 3.7: You can simply use the built-in `breakpoint()`.)
 
 .. code-block:: python
 
@@ -333,36 +354,53 @@ Here are some useful pdb commands:
 
 
 pdb with iPython: ipdb
-**********************
+----------------------
 
-Add content here
+You can turn on automatic calling of the pdb debugger after an exception:
+
+.. code-block:: console
+
+    $ ipython --pdb examples/divide_by_zero_with_pdp.py
+
+
+There is also a magic command to enable pdb:
+
+    
+.. code-block:: python
+
+    %pdb
+
+
+    
+
 
 
 pdb with jupyter
-****************
+----------------
 
 Use the *%debug* magic command to initiate ipdb
 
 
 
 pdb with spyder
-***************
+---------------
 
-Add content here
+
+The ipdb is `available also in spyder <https://docs.spyder-ide.org/5/panes/debugging.html>`_.
 
 
 
 Alternatives for pdb
-********************
+--------------------
 
  * https://pypi.org/project/pudb/
-
+ * PyCharm has its own `debugger <https://www.jetbrains.com/pycharm/features/debugger.html>`_.
 
 
 
 
 Defensive Programming
----------------------
+=====================
 
 - Assertions
 
@@ -370,8 +408,9 @@ Defensive Programming
 
 - Using On-line linting and IDEs
 
-Indices and tables
-==================
+====================
+ Indices and tables
+====================
 
 * :ref:`genindex`
 * :ref:`modindex`
