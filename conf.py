@@ -23,7 +23,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 
 project = 'Debugging Python'
-copyright = '2022, Jarno Rantaharju'
+copyright = '2022, Jarno Rantaharju, Simppa Äkäslompolo'
 author = 'Jarno Rantaharju'
 
 
