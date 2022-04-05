@@ -3,9 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. contents:: Table of Contents
-	          :depth: 4
-
 ==================
  Debugging Python
 ==================
@@ -13,6 +10,11 @@
 .. toctree::
    :maxdepth: 4
    :caption: Contents:
+
+
+.. contents:: Table of Contents
+	          :depth: 4
+
 
 
 Introduction
@@ -408,7 +410,7 @@ Defensive Programming
 
 - Using On-line linting and IDEs
 
-====================
+
  Indices and tables
 ====================
 
