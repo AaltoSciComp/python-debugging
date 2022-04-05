@@ -5,7 +5,7 @@
 
 .. contents:: Table of Contents
 	          :depth: 4
-   
+
 ==================
  Debugging Python
 ==================
@@ -13,16 +13,16 @@
 .. toctree::
    :maxdepth: 4
    :caption: Contents:
-	     
+
 
 Introduction
 ============
-	     
+
 The four steps of debugging
 ---------------------------
 
 1. Identify the bug
-   
+
    - Get a report from user or find an example input that exhibits the problem
    - Find the faulty line or piece of logic
 
@@ -38,8 +38,8 @@ The four steps of debugging
 4. Test
 
    - Check that the bug is fixed and no new bugs were introduced.
-   
-In this course we are concentrating on the Identifying phase. It is expected, that as soon as you identify the bug, it is more or less obvious how it should be fixed. 
+
+In this course we are concentrating on the Identifying phase. It is expected, that as soon as you identify the bug, it is more or less obvious how it should be fixed.
 
 Debugging is the art of identifying inconsistency between the expected and actual operation
 -------------------------------------------------------------------------------------------
@@ -57,14 +57,14 @@ This is all just a complicated way to say, that to debug Python succesfully, you
 
 Thus, we first recapitulate a few key features of the python language. After that we take a look at the python specific tools to help analyse a python program. We conclude with a few words on how to avoid problems.
 
-	     
+
 Python features relevant for debugging
 ======================================
 
 Datatypes -- weakly and dynamically typed
 -----------------------------------------
  - Python is weakly typed language in the sence that there is no way to force a specific type e.g. for a function argument.
- - If the object has the expected methods and instance variables of the expected type, then it is generally of a compatible type. (duck-typing) 
+ - If the object has the expected methods and instance variables of the expected type, then it is generally of a compatible type. (duck-typing)
  - Operators and methods can be overwritten.
 
 
@@ -73,12 +73,12 @@ Syntax errors
 -------------
 
  - Python is interpretted
-   
-   - There is no compilation phase, just syntax checking, then runtime
-     
- - Directly raise an error
- - Indentation problems most common
 
+   - There is no compilation phase, just syntax checking, then runtime
+
+ - Syntax errors are easy to spot. They raise an error when directly, when you try
+to run the code.
+   - Indentation problems most common
    - Many text editors can show you different types of white space (tabs, spaces...)
 
 Scoping
@@ -133,7 +133,7 @@ Scoping
      append_to will is stored as long as the function append_to_list stays in scope
 
      - Take special care whith functions with default values calling functions with default values. Best practice is often to use None as the default value and then fill in the default value in the function body.
-   
+
 
 Mutable vs immutable datatypes as function arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -145,7 +145,7 @@ Mutable vs immutable datatypes as function arguments
  - How do you know if a type is mutable or not?
 
    - numbers are immutable (e.g. Float)
-   - immutable sequences. 
+   - immutable sequences.
 
      - String
      - Tuples (The objects referenced in a Tuple may be mutable.)
@@ -171,7 +171,7 @@ Mutable vs immutable datatypes as function arguments
 		     id(y)      # 234567
 
 
-     
+
 Garbage collecting
 ------------------
 
@@ -261,7 +261,7 @@ Inspecting the source code of packages
 
 	$ cd my_package_folder
         $ pip install -e ./
-   
+
 
 Error Messages
 ==============
@@ -365,13 +365,13 @@ You can turn on automatic calling of the pdb debugger after an exception:
 
 There is also a magic command to enable pdb:
 
-    
+
 .. code-block:: python
 
     %pdb
 
 
-    
+
 
 
 
