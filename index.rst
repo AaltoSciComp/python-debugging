@@ -7,15 +7,11 @@
  Debugging Python
 ==================
 
+
 .. toctree::
    :maxdepth: 4
    :caption: Contents:
-
-
-.. contents:: Table of Contents
-	          :depth: 4
-
-
+	  
 
 Introduction
 ============
@@ -78,8 +74,7 @@ Syntax errors
 
    - There is no compilation phase, just syntax checking, then runtime
 
- - Syntax errors are easy to spot. They raise an error when directly, when you try
-to run the code.
+ - Syntax errors are easy to spot. They raise an error when directly, when you try to run the code.
 
    - Indentation problems most common
    - Many text editors can show you different types of white space (tabs, spaces...)
@@ -412,9 +407,9 @@ Defensive Programming
 - Using On-line linting and IDEs
 
 
- Indices and tables
-====================
+Indices and tables
+==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+:ref:`genindex`
+:ref:`modindex`
+:ref:`search`
