@@ -78,6 +78,7 @@ Syntax errors
 
  - Syntax errors are easy to spot. They raise an error when directly, when you try
 to run the code.
+
    - Indentation problems most common
    - Many text editors can show you different types of white space (tabs, spaces...)
 
@@ -241,26 +242,26 @@ Examples of virtual environment managers for Python:
 
         $ conda install pip
 
+Working with packaged python code
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Inspecting the source code of packages
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 .. code-block:: python
-
-
-
-		import pdb
-		print(pdb.__file__) # /u/54/sjjamsa/unix/conda/miniconda3/envs/sphinx/lib/python3.10/pdb.py'
+   
+   import pdb
+   print(pdb.__file__) # /u/54/sjjamsa/unix/conda/miniconda3/envs/sphinx/lib/python3.10/pdb.py
 
 
 
 
- - How to install so that changes to source code do not re-install:
+Install packages so that changes to source code do not require re-install:
 
-   .. code-block:: console
-
-	$ cd my_package_folder
-        $ pip install -e ./
+.. code-block:: console
+   
+   $ cd my_package_folder
+   $ pip install -e ./
 
 
 Error Messages
@@ -395,7 +396,7 @@ Alternatives for pdb
 
  * https://pypi.org/project/pudb/
  * PyCharm has its own `debugger <https://www.jetbrains.com/pycharm/features/debugger.html>`_.
-
+ * If you do use `print()`, it may not immediately print out your debug message. you may need to use the optional parameter `flush=True` to `print()`. Alternatively, setting the `environment variable <https://docs.python.org/3/using/cmdline.html#environment-variables>`_ `PYTHONUNBUFFERED` to a non-empty string may be enough to force immediate output.
 
 
 
