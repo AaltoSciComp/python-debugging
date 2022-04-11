@@ -55,6 +55,9 @@ Divide and conquer
 ------------------
 
 - Separate objects and clear interfaces
-
 - Unit testing
 
+Document well
+-------------
+
+- You can give `type hints <https://docs.python.org/3/library/typing.html>`_ about what types are expected, but it is only documentation, not enforced by the runtime.

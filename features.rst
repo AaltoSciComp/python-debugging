@@ -2,13 +2,34 @@
 Python features relevant for debugging
 ======================================
 
-Datatypes -- weakly and dynamically typed
------------------------------------------
- - Python is weakly typed language in the sence that there is no way to force a specific type e.g. for a function argument.
- - If the object has the expected methods and instance variables of the expected type, then it is generally of a compatible type. (duck-typing)
- - Operators and methods can be overwritten.
+Datatypes -- strongly and dynamically typed
+-------------------------------------------
+ - Python is strongly, but dynamically typed language:
 
+   - Strong: The type of a runtime object does not change automatically
+   - Dynamic: Runtime objects have a specific type instead of variables having a type.
 
+     - Since there are no types for variables, there is no way to force a specific type e.g. for a function argument.
+
+ - Python feels like a weakly typed language, that is you can usually pass a variable to a function, and it (often) just works. This is achieved with duck-typing and sometimes with operator overloading
+
+   - If the object has the expected methods and instance variables of the expected type, then it is generally of a compatible type. (duck-typing)
+   - Operators and methods can be overwritten in a derived class.
+   - For example, does it matter if an object is a sequence or a mapping, as long as you can index it conveniently?
+
+     .. code-block:: python
+
+	x_list = [    'a',     'b',     'c' ]
+	y_dict = { 0 :'a',  1 :'b',  2':'c' }
+	x_list[1]    # 'b'
+	y_dict[1]    # 'b'
+
+     - This leads to errors:
+
+       - what happens with `x_list[0:2]` and `y_dict[0:2]`?
+       - what happens with `y_dict.keys()` and `x_list.keys()`?
+
+     - You can give `type hints <https://docs.python.org/3/library/typing.html>`_ about what types are expected, but it is only documentation, not enforced by the runtime.
 
 Syntax errors
 -------------
@@ -37,11 +58,14 @@ Scoping
       set_x()
       print(x)# output: 2
 
- - Lists:
 
-   - Mutated in a function
 
-     .. code-block:: python
+Mutable vs immutable datatypes as function arguments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- An example: A list can be mutated in a function:
+
+  .. code-block:: python
 
         def alternate(values):
            ''' Return a copy of a list with every second
@@ -55,7 +79,47 @@ Scoping
         alternated_l = alternate(l)
         print(l) # [1,-2, 3,-4]
 
-   - As a default argument (default arguments are evaluated only once...)
+
+
+- Not all variables can be  `mutated <https://docs.python.org/3/reference/datamodel.html>`_:
+
+  - Mutable types are passed by reference
+  - Immutable types are passed by value
+
+- How do you know if a type is mutable or not?
+
+  - numbers are immutable (e.g. Float)
+  - immutable sequences.
+    
+     - String
+     - Tuples (The objects referenced in a Tuple may be mutable.)
+     - Byte
+
+  - immutable sets:
+
+     - Frozen set
+
+  - mutable: lists, dictionaries, most objects
+- The contents of a mutable datatype cannot be changed; a new one must be always created:
+
+     .. code-block:: python
+
+		     x = 5
+		     id(x)      # 123456
+		     x = x + 1
+		     id(x)      # 123777
+
+		     y = ['foo']
+		     id(y)      # 234567
+		     y.append('bar')
+		     id(y)      # 234567
+
+- This applies also with numpy arrays. Remember, that normal assignment in numpy is not a copy, but a new name for the same data.
+
+Functions can have default arguments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Default arguments are evaluated only once.
 
      .. code-block:: python
 
@@ -76,60 +140,24 @@ Scoping
      - Take special care whith functions with default values calling functions with default values. Best practice is often to use None as the default value and then fill in the default value in the function body.
 
 
-Mutable vs immutable datatypes as function arguments
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- - There is no way for the computer to automatically check if you are giving a sane input in terms of argument types
- - https://docs.python.org/3/reference/datamodel.html
- - Mutable types are passed by reference
- - Immutable types are passed by value
- - How do you know if a type is mutable or not?
-
-   - numbers are immutable (e.g. Float)
-   - immutable sequences.
-
-     - String
-     - Tuples (The objects referenced in a Tuple may be mutable.)
-     - Byte
-
-   - immutable sets:
-      - Frozen set
-
-   - mutable: lists, dictionaries, most objects
-
-   - The contents of a mutable datatype cannot be changed; a new one must be always created:
-
-     .. code-block:: python
-
-		     x = 5
-		     id(x)      # 123456
-		     x = x + 1
-		     id(x)      # 123777
-
-		     y = ['foo']
-		     id(y)      # 234567
-		     y.append('bar')
-		     id(y)      # 234567
-
-
-
 Garbage collecting
 ------------------
 
-garbage collection is not guaranteed to happen
+Python has automatic memory management. Unreachable runtime objects may removed from memory. However, this garbage collection is not guaranteed to happen.
 
  - You cannot rely on the finalizer __del__() to be executed
  - del only reduces the reference count
+ - if you are running out of memory
 
-
-HOW TO CHECK MEMORY FOOTPRINT SIZE OF OBJECT?
+   - Size of an object can be checked with `sys.sizeof()`
+   - Build in module `gc` provides an interface to the Garbage collector
 
 Dependency issues
 -----------------
 
 Python looks for packages in
 
-  1. First in users own Python packages (in $HOME/.local/lib/python...)
+  1. First in user's own Python packages (in $HOME/.local/lib/python...)
   2. Then system directories (like /usr/local in Linux)
 
 The same is true when uninstalling packages with pip.
@@ -161,6 +189,9 @@ There are many ways to install a package and these don't always work together.
 
    - Don't need to be admin
    - These will be checked first when importing
+
+Virtual environments
+~~~~~~~~~~~~~~~~~~~~
 
 Virtual environments make dependency management easier.
 They essentially force Python to look for packages in
@@ -205,7 +236,7 @@ Install packages so that changes to source code do not require re-install:
 
 
 Error Messages
-==============
+--------------
 
 Try running
 
