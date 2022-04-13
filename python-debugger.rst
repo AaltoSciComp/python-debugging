@@ -2,7 +2,7 @@
 The Python Debugger
 ===================
 
-Python is an interpreted language. Thus, the runtime is reading the source code line-by-line and executing it. The runtime offers a service, where you can register a function that is called whenever a specific line is executed. Similarly other call backs can be registered for e.g. exception handlerers. On top of these services, one can build a *debugger*, which sets up a nice user-interface to study the executing python routines.
+Python is an interpreted language. Thus, the runtime is reading the source code line-by-line and executing it. The runtime offers a service, where you can register a function that is called whenever a specific line is executed. Similarly other call backs can be registered for e.g. exception handlers. On top of these services, one can build a *debugger*, which sets up a nice user-interface to study the executing python routines.
 
 The Python debugger, pdb, can be used to inspect the state of the program
 while it's running. Pdb is a standard Python library, so you don't need to
@@ -118,7 +118,7 @@ pdb with jupyter
 
 Internally, jupyter uses ipdb, so many things works as in normal command line ``ipython``.
 
-- The ``%pdb``-magical command enables automatical start of ``ipdb`` in case of an Exception. 
+- The ``%pdb``-magical command enables automatics start of ``ipdb`` in case of an Exception. 
 - Alternatively, you can use the ``%debug`` magic command to initiate ``ipdb`` in post-mortem after the Exception has been printed.
 
 

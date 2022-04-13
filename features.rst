@@ -24,8 +24,8 @@ This will throw an error:
       return enum / denom
     ZeroDivisionError: division by zero
 
-Whenever Python encounters an error, it prints a
-traceback like the one above. It's best to start
+Whenever Python encounters an error (un-caught exception, to be exact), it prints a
+trace-back like the one above. It's best to start
 reading of from bottom.
 
 The last line shows the error that was encountered,
@@ -46,12 +46,12 @@ Maybe you can figure out the problem, but will later use a debugger to figure it
 
 Datatypes -- strongly and dynamically typed
 -------------------------------------------
- - Python is strongly, but dynamically typed language:
+ - Python is a strongly, but dynamically typed language:
 
-   - Strong: The type of a runtime object does not change automatically
+   - Strong: The type of a runtime object does not change automatically.
    - Dynamic: Runtime objects have a specific type instead of variables having a type.
 
-     - Since there are no types for variables, there is no way to force a specific type e.g. for a function argument.
+     - Since there are no types for variables, there is no way to force a specific type e.g. for a argument of a function.
 
  - Python feels like a weakly typed language, that is you can usually pass a variable to a function, and it (often) just works. This is achieved with duck-typing and sometimes with operator overloading
 
@@ -62,31 +62,38 @@ Datatypes -- strongly and dynamically typed
      .. code-block:: python
 
 	x_list = [    'a',     'b',     'c' ]
-	y_dict = { 0 :'a',  1 :'b',  2':'c' }
+	y_dict = { 0 :'a',  1 :'b',  2 :'c' }
 	x_list[1]    # 'b'
 	y_dict[1]    # 'b'
 
      - This leads to errors:
 
-       - what happens with `x_list[0:2]` and `y_dict[0:2]`?
-       - what happens with `y_dict.keys()` and `x_list.keys()`?
+       - what happens with ``x_list[0:2]`` and ``y_dict[0:2]``?
+       - what happens with ``y_dict.keys()`` and ``x_list.keys()``?
 
      - You can give `type hints <https://docs.python.org/3/library/typing.html>`_ about what types are expected, but it is only documentation, not enforced by the runtime.
+
+       .. code-block: python
+
+	  def square( x: float) -> float:
+	     return x**2
 
 Syntax errors
 -------------
 
- - Python is interpretted
+ - Python is interpreted
 
    - There is no compilation phase, just syntax checking, then runtime
 
- - Syntax errors are easy to spot. They raise an error when directly, when you try to run the code.
+ - Syntax errors are easy to spot. They raise an error directly when you try to run the code.
 
-   - Indentation problems most common
+   - Indentation problems are most common.
    - Many text editors can show you different types of white space (tabs, spaces...)
 
 Scoping
 -------
+
+Python resolves variables using the LEGB rule or the **L**\ ocal, **E**\ nclosing, **G**\ lobal, **B**\ uilt-in rule.
 
  - Setting a name defined in a higher scope defines a new one.
 
@@ -100,6 +107,7 @@ Scoping
       set_x()
       print(x)# output: 2
 
+ - Class variables have a similar effect. Derived classes share the class variables of the base class, unless re-defined.
 
 
 Mutable vs immutable datatypes as function arguments
@@ -142,6 +150,7 @@ Mutable vs immutable datatypes as function arguments
      - Frozen set
 
   - mutable: lists, dictionaries, most objects
+
 - The contents of a mutable datatype cannot be changed; a new one must be always created:
 
      .. code-block:: python
@@ -161,7 +170,7 @@ Mutable vs immutable datatypes as function arguments
 Functions can have default arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Default arguments are evaluated only once.
+- Default arguments are evaluated only once.
 
      .. code-block:: python
 
@@ -177,21 +186,24 @@ Default arguments are evaluated only once.
 
         l = append_to_list(2) # [1,2]
 
-     append_to will is stored as long as the function append_to_list stays in scope
+     - ``append_to`` is stored as long as the function ``append_to_list`` is stored
+       
+       - The values are stored in the ``__defaults__`` attribute of the function.
+       - Take special care with functions with default values calling functions with default values. Best practice is often to use None as the default value and then fill in the default value in the function body.
 
-     - Take special care whith functions with default values calling functions with default values. Best practice is often to use None as the default value and then fill in the default value in the function body.
-
-
+- This is similar to the bugs one may encounter due to the late-binding behaviour in python closures. In a closure, an outer function returns a function, and the returned function uses a variable from the outer function. 
+     - The variables referenced from the outer functions scope are stored in the ``__closure__`` attribute of the returned function. However, these variables are looked up only at the time when the returned function is executed. There are subtle effects in play here.
+       
 Garbage collecting
 ------------------
 
 Python has automatic memory management. Unreachable runtime objects may be removed from memory. However, this garbage collection is not guaranteed to happen.
 
- - You cannot rely on the finalizer __del__() to be executed
- - ``del`` only reduces the reference count
- - if you are running out of memory
+ - You cannot rely on the finalizer method ``__del__()`` to be executed
+ - The ``del``-statement only reduces the reference count of objects.
+ - if you are running out of memory:
 
-   - Size of an object can be checked with `sys.sizeof()`
+   - Size of an object can be checked with ``sys.sizeof()``
    - Build in module `gc` provides an interface to the Garbage collector
 
 Dependency issues
@@ -202,6 +214,8 @@ Python looks for packages in
   1. First in user's own Python packages (in $HOME/.local/lib/python...)
   2. Then system directories (like /usr/local in Linux)
 
+The exact list of folders your python is searching is defined in ``sys.path``.
+     
 The same is true when uninstalling packages with pip.
 So if you're not sure where a package is, uninstall it
 at least twice.

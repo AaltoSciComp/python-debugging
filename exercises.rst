@@ -73,7 +73,7 @@ Ex 3. Defend!
    $ git clone https://github.com/AaltoSciComp/python-debugging.git
 
    
-- Add an assertion to ``examples/divide_by_zero.py``
+- Add an assertion with a descriptive message or throw a custom exception in ``examples/divide_by_zero.py``.
 
   - How is this better than the divide by zero Exception?
 

@@ -58,6 +58,8 @@ Divide and conquer
 - Separate objects and implement clear interfaces
 - Unit testing
 
+  - Preferrably run automatically in a continuous integration setup
+
 Document well
 -------------
 
