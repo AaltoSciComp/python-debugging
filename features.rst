@@ -2,6 +2,48 @@
 Python features relevant for debugging
 ======================================
 
+Error Messages
+--------------
+
+Try running
+
+.. code-block:: console
+
+    $ python examples/divide_by_zero.py
+
+This will throw an error:
+
+.. code-block:: console
+
+    Traceback (most recent call last):
+    File "examples/divide_by_zero.py", line 32, in <module>
+      averages = conditional_averages(numbers)
+    File "examples/divide_by_zero.py", line 24, in conditional_averages
+      average = calc_average(copy)
+    File "examples/divide_by_zero.py", line 14, in calc_average
+      return enum / denom
+    ZeroDivisionError: division by zero
+
+Whenever Python encounters an error, it prints a
+traceback like the one above. It's best to start
+reading of from bottom.
+
+The last line shows the error that was encountered,
+and often some useful additional information. In this
+case all we get is "division by zero", which is good
+to know but does not tell us exactly what's wrong.
+
+The two lines above give us the line where the problem
+is. Usually there are several lines in libraries we
+did not write ourselves, so keep reading until you
+find one you can edit.
+
+Maybe you can figure out the problem, but will later use a debugger to figure it out.
+
+
+
+
+
 Datatypes -- strongly and dynamically typed
 -------------------------------------------
  - Python is strongly, but dynamically typed language:
@@ -143,10 +185,10 @@ Default arguments are evaluated only once.
 Garbage collecting
 ------------------
 
-Python has automatic memory management. Unreachable runtime objects may removed from memory. However, this garbage collection is not guaranteed to happen.
+Python has automatic memory management. Unreachable runtime objects may be removed from memory. However, this garbage collection is not guaranteed to happen.
 
  - You cannot rely on the finalizer __del__() to be executed
- - del only reduces the reference count
+ - ``del`` only reduces the reference count
  - if you are running out of memory
 
    - Size of an object can be checked with `sys.sizeof()`
@@ -216,7 +258,7 @@ Examples of virtual environment managers for Python:
 Working with packaged python code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Inspecting the source code of packages
+You can inspect the source code of installed packages with an editor. The file location you can get from the variable ``__file__``:
 
 
 .. code-block:: python
@@ -227,51 +269,11 @@ Inspecting the source code of packages
 
 
 
-Install packages so that changes to source code do not require re-install:
+If you download the source code, (e.g. with git), you can install the package so that changes to source code do not require re-installing the package:
 
 .. code-block:: console
    
    $ cd my_package_folder
    $ pip install -e ./
-
-
-Error Messages
---------------
-
-Try running
-
-.. code-block:: console
-
-    $ python examples/divide_by_zero.py
-
-This will throw an error:
-
-.. code-block:: console
-
-    Traceback (most recent call last):
-    File "examples/divide_by_zero.py", line 32, in <module>
-      averages = conditional_averages(numbers)
-    File "examples/divide_by_zero.py", line 24, in conditional_averages
-      average = calc_average(copy)
-    File "examples/divide_by_zero.py", line 14, in calc_average
-      return enum / denom
-    ZeroDivisionError: division by zero
-
-Whenever Python encounters an error, it prints a
-traceback like the one above. It's best to start
-reading of from bottom.
-
-The last line shows the error that was encountered,
-and often some useful additional information. In this
-case all we get is "division by zero", which is good
-to know but does not tell us exactly what's wrong.
-
-The two lines above give us the line where the problem
-is. Usually there are several lines in libraries we
-did not write ourselves, so keep reading until you
-find one you can edit.
-
-Maybe you can figure out the problem, but will use a debugger to figure it out
-in the next section.
 
 

@@ -1,5 +1,6 @@
 # This script will cause a divide by zero error
 
+from watchpoints import watch
 
 def sum(numbers):
     result = 0
@@ -25,6 +26,9 @@ def conditional_averages(numbers):
     copy = list(numbers)
     averages = []
 
+    watch(copy)
+
+    
     for i in range(len(numbers)):
         copy = copy[1:]
         average = calc_average(copy)

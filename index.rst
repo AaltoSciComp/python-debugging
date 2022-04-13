@@ -14,9 +14,9 @@
 
    introduction
    features
-   python-debugger
    defensive-programming
-
+   python-debugger
+   exercises
 
 
 :ref:`genindex`

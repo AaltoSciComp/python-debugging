@@ -49,15 +49,17 @@ Checks while writing
 - Using On-line linting and IDEs
 
   - `Pylint <https://pylint.pycqa.org/en/latest/intro.html>`_ is an off-line tool that can check your code for formatting and for certain logical errors that could hint at hidden problems.
-
+  - IDEs like spyder, pycharm, eclipse and vscode can warn you of undefined and unused variables, bad syntax and perform further diagnostics of your code while you write. 
+    
   
 Divide and conquer
 ------------------
 
-- Separate objects and clear interfaces
+- Separate objects and implement clear interfaces
 - Unit testing
 
 Document well
 -------------
 
 - You can give `type hints <https://docs.python.org/3/library/typing.html>`_ about what types are expected, but it is only documentation, not enforced by the runtime.
+- `Docstrings <https://peps.python.org/pep-0257/>`_ should include i.a. information about the parameters and return values of functions.

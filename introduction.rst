@@ -17,7 +17,7 @@ The four steps of debugging
 
 3. Fix
 
-   - Replacing the erronous code with correct code
+   - Replacing the erroneous code with correct code
 
 4. Test
 
@@ -35,9 +35,9 @@ Sometimes a program does do what the programmer intents it to do, but the user e
 However, we concentrate on the common and basic problem of how to fix your own code. Here the inconsistency is usually between what you mean the computer to do and what you tell the computer to do.
 The key to success is to have sufficiently deep understanding of what your code and the programming language does, to simulate in your mind the program.
 
-This is all just a complicated way to say, that to debug Python succesfully, you need to know the python language and some details of the underlying runtime.
+This is all just a complicated way to say, that to debug Python successfully, you need to know the python language and some details of the underlying runtime.
 
 
 
-Thus, we first recapitulate a few key features of the python language. After that we take a look at the python specific tools to help analyse a python program. We conclude with a few words on how to avoid problems.
+Thus, we first recapitulate a few key features of the python language. We say a few words on how to avoid problems. After that we take a look at the python specific tools to help analyze a python program. 
 

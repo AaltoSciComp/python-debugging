@@ -1,3 +1,7 @@
+import pdb
+pdb.set_trace()
+    
+
 # This script will cause a divide by zero error
 
 
