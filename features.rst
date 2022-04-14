@@ -2,44 +2,18 @@
 Python features relevant for debugging
 ======================================
 
-Error Messages
---------------
+Python is an interpreted language
+---------------------------------
 
-Try running
+ - Python is interpreted
 
-.. code-block:: console
+   - There is no compilation phase, just syntax checking, then runtime
+   - You can pre-process in IDE or a separate linting tool. A few more words on this later.
 
-    $ python examples/divide_by_zero.py
+ - Syntax errors are easy to spot. They raise an exception immediately when you try to run the code.
 
-This will throw an error:
-
-.. code-block:: console
-
-    Traceback (most recent call last):
-    File "examples/divide_by_zero.py", line 32, in <module>
-      averages = conditional_averages(numbers)
-    File "examples/divide_by_zero.py", line 24, in conditional_averages
-      average = calc_average(copy)
-    File "examples/divide_by_zero.py", line 14, in calc_average
-      return enum / denom
-    ZeroDivisionError: division by zero
-
-Whenever Python encounters an error (un-caught exception, to be exact), it prints a
-trace-back like the one above. It's best to start
-reading of from bottom.
-
-The last line shows the error that was encountered,
-and often some useful additional information. In this
-case all we get is "division by zero", which is good
-to know but does not tell us exactly what's wrong.
-
-The two lines above give us the line where the problem
-is. Usually there are several lines in libraries we
-did not write ourselves, so keep reading until you
-find one you can edit.
-
-Maybe you can figure out the problem, but will later use a debugger to figure it out.
-
+   - Indentation problems are most common. Many text editors can show you different types of white space (tabs, spaces...)
+   - Parenthesis and quotation mark mismatch as well
 
 
 
@@ -71,24 +45,12 @@ Datatypes -- strongly and dynamically typed
        - what happens with ``x_list[0:2]`` and ``y_dict[0:2]``?
        - what happens with ``y_dict.keys()`` and ``x_list.keys()``?
 
-     - You can give `type hints <https://docs.python.org/3/library/typing.html>`_ about what types are expected, but it is only documentation, not enforced by the runtime.
+   - You can give `type hints <https://docs.python.org/3/library/typing.html>`_ about what types are expected, but it is only documentation, not enforced by the runtime.
 
-       .. code-block: python
-
-	  def square( x: float) -> float:
-	     return x**2
-
-Syntax errors
--------------
-
- - Python is interpreted
-
-   - There is no compilation phase, just syntax checking, then runtime
-
- - Syntax errors are easy to spot. They raise an error directly when you try to run the code.
-
-   - Indentation problems are most common.
-   - Many text editors can show you different types of white space (tabs, spaces...)
+     .. code-block:: python
+	
+	def square( x: float) -> float:
+	   return x**2
 
 Scoping
 -------
@@ -107,11 +69,13 @@ Python resolves variables using the LEGB rule or the **L**\ ocal, **E**\ nclosin
       set_x()
       print(x)# output: 2
 
+   - If you wish to set the value of a variable from outer scope or a global variable within a function or loop, you can use the keywords ``nonlocal`` and ``global``.
+
  - Class variables have a similar effect. Derived classes share the class variables of the base class, unless re-defined.
 
 
-Mutable vs immutable datatypes as function arguments
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mutable vs immutable datatypes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - An example: A list can be mutated in a function:
 
@@ -134,8 +98,10 @@ Mutable vs immutable datatypes as function arguments
 - Not all variables can be  `mutated <https://docs.python.org/3/reference/datamodel.html>`_:
 
   - Mutable types are passed by reference
+  - Mutable types are bound to a new name on assignment
   - Immutable types are passed by value
-
+  - Immutable types are copied on assignment
+    
 - How do you know if a type is mutable or not?
 
   - numbers are immutable (e.g. Float)
@@ -194,17 +160,17 @@ Functions can have default arguments
 - This is similar to the bugs one may encounter due to the late-binding behaviour in python closures. In a closure, an outer function returns a function, and the returned function uses a variable from the outer function. 
      - The variables referenced from the outer functions scope are stored in the ``__closure__`` attribute of the returned function. However, these variables are looked up only at the time when the returned function is executed. There are subtle effects in play here.
        
-Garbage collecting
-------------------
+Memory management
+-----------------
 
-Python has automatic memory management. Unreachable runtime objects may be removed from memory. However, this garbage collection is not guaranteed to happen.
+Python has automatic memory management. Unreachable runtime objects may be automatically removed from memory. However, this garbage collection is not guaranteed to happen.
 
  - You cannot rely on the finalizer method ``__del__()`` to be executed
  - The ``del``-statement only reduces the reference count of objects.
  - if you are running out of memory:
 
-   - Size of an object can be checked with ``sys.sizeof()``
-   - Build in module `gc` provides an interface to the Garbage collector
+   - Size of an object can be checked with ``sys.getsizeof()``
+   - Build in module ``gc`` provides an interface to the Garbage collector
 
 Dependency issues
 -----------------
@@ -257,11 +223,15 @@ problems, you can remove the environment and reinstall.
 
 Examples of virtual environment managers for Python:
 
- - Pipenv
+ - `Pipenv <https://pipenv.pypa.io/en/latest/>`_
 
- - Virtualenv
+ - `Virtualenv <https://virtualenv.pypa.io/en/latest/>`_
 
- - Conda / Mamba
+   - Subset of virtualenv is offered in the standard module `venv <https://docs.python.org/3/library/venv.html>`_
+   
+ - `Conda <https://docs.conda.io/>`_
+
+   - `Mamba <https://anaconda.org/conda-forge/mamba>`_ is a fast drop-in replacement, if it takes too long to install packages with Conda.
 
    - To use pip with conda, always run
 
@@ -289,5 +259,44 @@ If you download the source code, (e.g. with git), you can install the package so
    
    $ cd my_package_folder
    $ pip install -e ./
+
+
+Error Messages
+--------------
+
+Try running
+
+.. code-block:: console
+
+    $ python examples/divide_by_zero.py
+
+This will throw an error:
+
+.. code-block:: console
+
+    Traceback (most recent call last):
+    File "examples/divide_by_zero.py", line 32, in <module>
+      averages = conditional_averages(numbers)
+    File "examples/divide_by_zero.py", line 24, in conditional_averages
+      average = calc_average(copy)
+    File "examples/divide_by_zero.py", line 14, in calc_average
+      return enum / denom
+    ZeroDivisionError: division by zero
+
+Whenever Python encounters an error (un-caught exception, to be exact), it prints a
+trace-back like the one above. It's best to start
+reading of from bottom.
+
+The last line shows the error that was encountered,
+and often some useful additional information. In this
+case all we get is "division by zero", which is good
+to know but does not tell us exactly what's wrong.
+
+The two lines above give us the line where the problem
+is. Usually there are several lines in libraries we
+did not write ourselves, so keep reading until you
+find one you can edit.
+
+Maybe you can figure out the problem, but will later use a debugger to figure it out.
 
 

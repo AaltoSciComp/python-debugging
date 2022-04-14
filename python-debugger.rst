@@ -58,7 +58,7 @@ The package is available from PyPi:
 
 .. code-block:: console
 
-    $ pip install watchers
+    $ pip install watchpoints
 
 
 Afterwards you can use it fairly simply:

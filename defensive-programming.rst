@@ -10,7 +10,7 @@ Reporting (un)expected state
   .. code-block:: python
 
      assert expression0
-		  
+  
      assert expression1, expression2
 
      # Which is eqvivalent to:
@@ -27,31 +27,38 @@ Reporting (un)expected state
 
   In a more complex case you could `raise a custom exception <https://docs.python.org/3/tutorial/errors.html>`_ that carries the exact meaning you wish to transfer:
 
-.. code-block:: python
+  .. code-block:: python
 
-   class mySpecialError(Exception):
-	""" This error is raised in a special situation.  """
-	pass
+     class mySpecialError(Exception):
+        """ This error is raised in a special situation.  """
+        pass
 
-   if myValue < myLimit:
+     if myValue < myLimit:
         raise mySpecialError()
-	
+
 - `Use loggers to easily turn on and off your debug writes <https://docs.python.org/3/howto/logging.html#logging-basic-tutorial>`_.
+
+  .. code-block:: python
+
+     import logging
+     logging.warning('Warn!')        # Printed by default
+     logging.info('Info!')           # Need to ask for more verbose
+     logging.debug('details...')     # Need to ask for much more verbose
 
   - The basic idea of loggers is to provide a framework that makes it convenient to choose the current verbosity of the program depending on simple centralized run-time setting.
   - The logger framework can do formatting of the messages, such as including the time.
 
 
-  
+
 Checks while writing
 --------------------
-  
-- Using On-line linting and IDEs
+
+Using On-line linting and IDEs can help you fix bugs as you type!
 
   - `Pylint <https://pylint.pycqa.org/en/latest/intro.html>`_ is an off-line tool that can check your code for formatting and for certain logical errors that could hint at hidden problems.
   - IDEs like spyder, pycharm, eclipse and vscode can warn you of undefined and unused variables, bad syntax and perform further diagnostics of your code while you write. 
-    
-  
+
+
 Divide and conquer
 ------------------
 
