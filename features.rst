@@ -85,7 +85,7 @@ Mutable vs immutable datatypes
            ''' Return a copy of a list with every second
            element inverted
            '''
-           for i in range(0:2:len(values)):
+           for i in range(len(values))[::2}:
               values[i] = -values[i]
            return values
 
