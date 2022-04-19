@@ -169,7 +169,7 @@ Python has automatic memory management. Unreachable runtime objects may be autom
  - The ``del``-statement only reduces the reference count of objects.
  - if you are running out of memory:
 
-   - Size of an object can be checked with ``sys.getsizeof()``
+   - Size of an object can be checked with ``sys.getsizeof()``, but it is a *shallow* estimate of the size.
    - Build in module ``gc`` provides an interface to the Garbage collector
 
 Dependency issues

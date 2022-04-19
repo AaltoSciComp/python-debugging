@@ -27,6 +27,7 @@ This code shows a double pendulum in action. A gui is needed for it to run, but 
 
   .. code-block:: console
 		
+     $ git commit -a -m "My changes to the main branch" # in case you made any
      $ git checkout pip_installable
      $ pip install -e ./
      $ double-pendulum
@@ -35,6 +36,7 @@ This code shows a double pendulum in action. A gui is needed for it to run, but 
 
   .. code-block:: console
 		
+     $ git commit -a -m "My changes to the main branch" # in case you made any
      $ git checkout pip_installable
      $ pip install --user -e ./
      $ alias double-pendulum=$( python3 -c "import site; print(site.USER_BASE)" )/bin/double-pendulum # This is for bash/zsh shells. For C-family of shells, drop the "=". 
@@ -52,6 +54,7 @@ The pendulum is broken. Find the corrupted line. You may need to know, that the 
 
   .. code-block:: console
 		
+     $ git commit -a -m "My changes to the pip_installable branch" # in case you made any
      $ git checkout broken_pendulum
 
 
