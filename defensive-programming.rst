@@ -65,6 +65,7 @@ Divide and conquer
 - Separate objects and implement clear interfaces
 - Unit testing
 
+  - There are a number of python frameworks for unit testing, e.g. `the built in unittest <https://docs.python.org/3/library/unittest.html>`_ and `pytest <https://docs.pytest.org/>`_.
   - Preferrably run automatically in a continuous integration setup
 
 Document well
