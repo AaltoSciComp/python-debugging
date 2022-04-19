@@ -13,7 +13,7 @@ Reporting (un)expected state
   
      assert expression1, expression2
 
-     # Which is eqvivalent to:
+     # Which is equivalent to:
 
      if __debug__:
          if not expression0: raise AssertionError
