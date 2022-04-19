@@ -34,21 +34,59 @@ the program state before continuing.
 
 Here are some useful pdb commands:
 
-  - **list** Print a few lines of code around the current position.
-  - **where** Print the current position and the functions that were called
-    to get there (same as the stack trace printed when an exception is raised).
-  - **next** Execute the current line and move to the next one.
-  - **until** Execute until you reach next line (useful in loops)
-  - **step** If the line contains a function, move into it. Otherwise execute
-    the current line.
-  - **continue:** Run until the next breakpoint
-  - **up** Move to the function that called this one (up the stack).
-  - **down** Move to the function called from this one (down the stack).
-  - **p variable** Print the value of a variable (you can also run
-    ``print(variable)``)
-  - **break #** ``[([filename:]lineno | function) [, condition]]`` Set a new breakpoint to a specific line or function. With the optional condition statement, the program is stopped only if the condition evaluates True.
-  - **break** List all breaks
+  - Show current location
+    
+    - **list** Print a few lines of code around the current position.
+    - **where** Print the current position and the functions that were called
+      to get there (same as the stack trace printed when an exception is raised).
 
+  - Work with breakpoints
+    
+    - **break** ``[([filename:]lineno | function) [, condition]]`` Set a new breakpoint to a specific line or function. With the optional condition statement, the program is stopped only if the condition evaluates True.
+    - **break** List all breaks
+    - **disable #** disables a breakpoint
+    - **clear #** removes a breakpoint
+
+  - Continue execution
+    
+    - **next** Execute the current line and move to the next one.
+    - **until** Execute until you reach next line (useful in loops)
+    - **step** If the line contains a function, move into it. Otherwise execute
+      the current line.
+    - **continue:** Run until the next breakpoint
+
+  - Move point of view 
+    
+    - **up** Move to the function that called this one (up the stack).
+    - **down** Move to the function called from this one (down the stack).
+
+  - Print variables
+    
+    - **p variable** Print the value of an expression (you can also run ``print(variable)``)
+    - **display variable** Display the value of the expression if it changed
+
+It is also possible to modify variable values within the program:
+
+.. code-block::
+   
+   % python examples/divide_by_zero_with_pdp.py
+   > /u/54/sjjamsa/unix/debugCourse/python-debugging/examples/divide_by_zero_with_pdp.py(8)<module>()
+   -> def sum(numbers):
+   (Pdb) b 18, denom==0
+   Breakpoint 1 at /u/54/sjjamsa/unix/debugCourse/python-debugging/examples/divide_by_zero_with_pdp.py:18
+   (Pdb) c
+   > /u/54/sjjamsa/unix/debugCourse/python-debugging/examples/divide_by_zero_with_pdp.py(18)calc_average()
+   -> return enum / denom
+   (Pdb) p denom
+   0
+   (Pdb) denom=1.0
+   (Pdb) p denom
+   1.0
+   (Pdb) c
+   [3.0, 3.5, 4.0, 0.0]
+
+      
+      
 Watching variables
 ~~~~~~~~~~~~~~~~~~
 
@@ -134,7 +172,9 @@ The ipdb is `available also in spyder <https://docs.spyder-ide.org/5/panes/debug
 Alternatives for pdb
 ~~~~~~~~~~~~~~~~~~~~
 
- * https://pypi.org/project/pudb/
+ * `pdb++ <https://pypi.org/project/pdbpp/>`_ is meant to be a drop-in replacement for pdb
+ * `Pudb <https://pypi.org/project/pudb/>`_ strives to provide all the niceties of modern GUI-based debuggers in a more lightweight and keyboard-friendly package. 
  * PyCharm has its own `debugger <https://www.jetbrains.com/pycharm/features/debugger.html>`_.
- * If you do use ``print()``, it may not immediately print out your debug message. you may need to use the optional parameter ``flush=True`` to ``print()``. Alternatively, setting the `environment variable <https://docs.python.org/3/using/cmdline.html#environment-variables>`_ ``PYTHONUNBUFFERED`` to a non-empty string may be enough to force immediate output.
+
+If you do use ``print()``, it may not immediately print out your debug message. You may need to use the optional parameter ``flush=True`` to ``print()``. Alternatively, setting the `environment variable <https://docs.python.org/3/using/cmdline.html#environment-variables>`_ ``PYTHONUNBUFFERED`` to a non-empty string may be enough to force immediate output.
 
