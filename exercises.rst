@@ -41,9 +41,9 @@ This code shows a double pendulum in action. A gui is needed for it to run, but 
      $ pip install --user -e ./
      $ alias double-pendulum=$( python3 -c "import site; print(site.USER_BASE)" )/bin/double-pendulum # This is for bash/zsh shells. For C-family of shells, drop the "=". 
      $ double-pendulum
-   
-     - Confirm that editing the files has immediate effect. Add a ``print()`` or a ``break()`` statement in the ``main()``-function in ``double-pendulum/doublependulum/dp.py``.
-   
+
+- Confirm that editing the files has immediate effect. Add a ``print()`` or a ``break()`` statement in the ``main()``-function in ``double-pendulum/doublependulum/dp.py``.
+
 
 Ex 2. Fix the broken pendulum
 =============================
