@@ -4,6 +4,20 @@ Exercises
 
 You can try the debugger and tools on your own code, or do the following artificial exercises:
 
+Ex 0. Try debugging divide_by_zero.py
+=====================================
+Warmup:
+
+.. code-block:: console
+		
+   $ git clone https://github.com/AaltoSciComp/python-debugging.git
+
+- Try the debugger in ``examples/divide_by_zero.py`` in post-mortem mode.
+  
+- Try the debugger in live mode with ``divide_by_zero_with_pdp.py``.
+  
+
+
 Ex 1. Install double pendulum
 =============================
 
