@@ -4,9 +4,9 @@ The Python Debugger
 
 Python is an interpreted language. Thus, the runtime is reading the source code line-by-line and executing it. The runtime offers a service, where you can register a function that is called whenever a specific line is executed. Similarly other call backs can be registered for e.g. exception handlers. On top of these services, one can build a *debugger*, which sets up a nice user-interface to study the executing python routines.
 
-The Python debugger, pdb, can be used to inspect the state of the program
-while it's running. Pdb is a standard Python library, so you don't need to
-install it.
+The Python debugger, ``pdb``, can be used to inspect (and modify) the state of the program
+while it is running. ``pdb`` is a standard Python library, so you don't need to
+install it separately.
 
 The most common way of using it is running ``pdp.set_trace()`` in your script.
 (Since version 3.7: You can simply use the built-in ``breakpoint()``.)
@@ -23,12 +23,13 @@ When Python reaches this line, it will pause and open a pdb prompt:
 
 .. code-block:: console
 
-    $ python examples/divide_by_zero_with_pdp.py
-    > /u/24/rantahj1/unix/src/python-debugging/examples/divide_by_zero.py(16)calc_average()
-    -> return enum / denom
-    (Pdb)
+   $ ipython examples/divide_by_zero_with_pdp.py
+   > /u/54/sjjamsa/unix/debugCourse/python-debugging/examples/divide_by_zero_with_pdp.py(8)<module>()
+   -> def sum(numbers):
+   (Pdb) 
 
-Python has stopped on line 16 of ``examples/divide_by_zero_with_pdp.py``. You can
+
+Python has stopped on line 8 of ``examples/divide_by_zero_with_pdp.py``. You can
 now look at the values of any variables, run Python functions and even change
 the program state before continuing.
 
@@ -172,6 +173,7 @@ The ipdb is `available also in spyder <https://docs.spyder-ide.org/5/panes/debug
 Alternatives for pdb
 ~~~~~~~~~~~~~~~~~~~~
 
+ * The GNU debugger ``gdb`` has python macros for CPython. It can attach to a running python process.
  * `pdb++ <https://pypi.org/project/pdbpp/>`_ is meant to be a drop-in replacement for pdb
  * `Pudb <https://pypi.org/project/pudb/>`_ strives to provide all the niceties of modern GUI-based debuggers in a more lightweight and keyboard-friendly package. 
  * PyCharm has its own `debugger <https://www.jetbrains.com/pycharm/features/debugger.html>`_.
