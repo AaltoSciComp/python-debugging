@@ -41,3 +41,12 @@ This is all just a complicated way to say, that to debug Python successfully, yo
 
 Thus, we first recapitulate a few key features of the python language. We say a few words on how to avoid problems. After that we take a look at the python specific tools to help analyze a python program. 
 
+Ommitted topics, but that could have been covered:
+--------------------------------------------------
+
+- Floating point exceptions
+  
+  - `fpectl <https://python.readthedocs.io/en/latest/library/fpectl.html>`_
+  - `numpy.seterr() <https://numpy.org/doc/stable/reference/routines.err.html>`_
+
+- Anything related to pandas
