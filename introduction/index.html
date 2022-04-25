@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction &mdash; Debugging Python  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Python features relevant for debugging" href="../features/" />
+    <link rel="prev" title="Debugging Python" href="../" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> Debugging Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-four-steps-of-debugging">The four steps of debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-is-the-art-of-identifying-inconsistency-between-the-expected-and-actual-operation">Debugging is the art of identifying inconsistency between the expected and actual operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ommitted-topics-but-that-could-have-been-covered">Ommitted topics, but that could have been covered:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../features/">Python features relevant for debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defensive-programming/">Defensive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python-debugger/">The Python Debugger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/">Exercises</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">Debugging Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a> &raquo;</li>
+      <li>Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h1>
+<section id="the-four-steps-of-debugging">
+<h2>The four steps of debugging<a class="headerlink" href="#the-four-steps-of-debugging" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p>Identify the bug</p>
+<ul class="simple">
+<li><p>Get a report from user or find an example input that exhibits the problem</p></li>
+<li><p>Find the faulty line or piece of logic</p></li>
+</ul>
+</li>
+<li><p>Isolate</p>
+<ul class="simple">
+<li><p>Confirm that you have found the problem</p></li>
+<li><p>Could be e.g. a unit test or a minimal (non)working example</p></li>
+</ul>
+</li>
+<li><p>Fix</p>
+<ul class="simple">
+<li><p>Replacing the erroneous code with correct code</p></li>
+</ul>
+</li>
+<li><p>Test</p>
+<ul class="simple">
+<li><p>Check that the bug is fixed and no new bugs were introduced.</p></li>
+</ul>
+</li>
+</ol>
+<p>In this course we are concentrating on the Identifying phase. It is expected, that as soon as you identify the bug, it is more or less obvious how it should be fixed.</p>
+</section>
+<section id="debugging-is-the-art-of-identifying-inconsistency-between-the-expected-and-actual-operation">
+<h2>Debugging is the art of identifying inconsistency between the expected and actual operation<a class="headerlink" href="#debugging-is-the-art-of-identifying-inconsistency-between-the-expected-and-actual-operation" title="Permalink to this headline"></a></h2>
+<p>A problem exists whenever the user expects the system to operate differently from how it actually operates. The issue may lay either in the expectations or in the system.</p>
+<p>Sometimes a program does do what the programmer intents it to do, but the user expects some other behaviour. Then the bug is in the user interface (UI), in the application programming interface (API) or in the documentation. For scientific computation this is most often encountered when starting to use a new library or software.</p>
+<p>However, we concentrate on the common and basic problem of how to fix your own code. Here the inconsistency is usually between what you mean the computer to do and what you tell the computer to do.
+The key to success is to have sufficiently deep understanding of what your code and the programming language does, to simulate in your mind the program.</p>
+<p>This is all just a complicated way to say, that to debug Python successfully, you need to know the python language and some details of the underlying runtime.</p>
+<p>Thus, we first recapitulate a few key features of the python language. We say a few words on how to avoid problems. After that we take a look at the python specific tools to help analyze a python program.</p>
+</section>
+<section id="ommitted-topics-but-that-could-have-been-covered">
+<h2>Ommitted topics, but that could have been covered:<a class="headerlink" href="#ommitted-topics-but-that-could-have-been-covered" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Floating point exceptions</p>
+<ul>
+<li><p><a class="reference external" href="https://python.readthedocs.io/en/latest/library/fpectl.html">fpectl</a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/reference/routines.err.html">numpy.seterr()</a></p></li>
+</ul>
+</li>
+<li><p>Anything related to pandas</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../" class="btn btn-neutral float-left" title="Debugging Python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../features/" class="btn btn-neutral float-right" title="Python features relevant for debugging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jarno Rantaharju, Simppa Äkäslompolo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debugging Python &mdash; Debugging Python  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="#" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex/" />
+    <link rel="search" title="Search" href="search/" />
+    <link rel="next" title="Introduction" href="introduction/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> Debugging Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction/">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features/">Python features relevant for debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defensive-programming/">Defensive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-debugger/">The Python Debugger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercises/">Exercises</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Debugging Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Debugging Python</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="debugging-python">
+<h1>Debugging Python<a class="headerlink" href="#debugging-python" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction/">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/#the-four-steps-of-debugging">The four steps of debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/#debugging-is-the-art-of-identifying-inconsistency-between-the-expected-and-actual-operation">Debugging is the art of identifying inconsistency between the expected and actual operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/#ommitted-topics-but-that-could-have-been-covered">Ommitted topics, but that could have been covered:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features/">Python features relevant for debugging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features/#python-is-an-interpreted-language">Python is an interpreted language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features/#datatypes-strongly-and-dynamically-typed">Datatypes – strongly and dynamically typed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features/#scoping">Scoping</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/#mutable-vs-immutable-datatypes">Mutable vs immutable datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/#functions-can-have-default-arguments">Functions can have default arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/#memory-management">Memory management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features/#dependency-issues">Dependency issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/#virtual-environments">Virtual environments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/#working-with-packaged-python-code">Working with packaged python code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/#error-messages">Error Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="defensive-programming/">Defensive Programming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="defensive-programming/#reporting-un-expected-state">Reporting (un)expected state</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defensive-programming/#checks-while-writing">Checks while writing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defensive-programming/#divide-and-conquer">Divide and conquer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defensive-programming/#document-well">Document well</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python-debugger/">The Python Debugger</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python-debugger/#watching-variables">Watching variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python-debugger/#pdb-in-various-environments">Pdb in various environments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python-debugger/#pdb-with-ipython-ipdb">pdb with iPython: ipdb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python-debugger/#pdb-with-jupyter">pdb with jupyter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python-debugger/#pdb-with-spyder">pdb with spyder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python-debugger/#alternatives-for-pdb">Alternatives for pdb</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises/">Exercises</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exercises/#ex-0-try-debugging-divide-by-zero-py">Ex 0. Try debugging divide_by_zero.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercises/#ex-1-install-double-pendulum">Ex 1. Install double pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercises/#ex-2-fix-the-broken-pendulum">Ex 2. Fix the broken pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercises/#ex-3-defend">Ex 3. Defend!</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><a class="reference internal" href="genindex/"><span class="std std-ref">Index</span></a>
+<a class="reference internal" href="py-modindex/"><span class="std std-ref">Module Index</span></a>
+<a class="reference internal" href="search/"><span class="std std-ref">Search Page</span></a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction/" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jarno Rantaharju, Simppa Äkäslompolo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Python Debugger &mdash; Debugging Python  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Exercises" href="../exercises/" />
+    <link rel="prev" title="Defensive Programming" href="../defensive-programming/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> Debugging Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/">Python features relevant for debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defensive-programming/">Defensive Programming</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Python Debugger</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#watching-variables">Watching variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pdb-in-various-environments">Pdb in various environments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pdb-with-ipython-ipdb">pdb with iPython: ipdb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pdb-with-jupyter">pdb with jupyter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pdb-with-spyder">pdb with spyder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#alternatives-for-pdb">Alternatives for pdb</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/">Exercises</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">Debugging Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a> &raquo;</li>
+      <li>The Python Debugger</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/python-debugger.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-python-debugger">
+<h1>The Python Debugger<a class="headerlink" href="#the-python-debugger" title="Permalink to this headline"></a></h1>
+<p>Python is an interpreted language. Thus, the runtime is reading the source code line-by-line and executing it. The runtime offers a service, where you can register a function that is called whenever a specific line is executed. Similarly other call backs can be registered for e.g. exception handlers. On top of these services, one can build a <em>debugger</em>, which sets up a nice user-interface to study the executing python routines.</p>
+<p>The Python debugger, <code class="docutils literal notranslate"><span class="pre">pdb</span></code>, can be used to inspect (and modify) the state of the program
+while it is running. <code class="docutils literal notranslate"><span class="pre">pdb</span></code> is a standard Python library, so you don’t need to
+install it separately.</p>
+<p>The most common way of using it is running <code class="docutils literal notranslate"><span class="pre">pdp.set_trace()</span></code> in your script.
+(Since version 3.7: You can simply use the built-in <code class="docutils literal notranslate"><span class="pre">breakpoint()</span></code>.)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pdb</span>
+
+<span class="o">...</span>
+
+<span class="n">pdp</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>When Python reaches this line, it will pause and open a pdb prompt:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ipython examples/divide_by_zero_with_pdp.py
+<span class="go">&gt; /u/54/sjjamsa/unix/debugCourse/python-debugging/examples/divide_by_zero_with_pdp.py(8)&lt;module&gt;()</span>
+<span class="go">-&gt; def sum(numbers):</span>
+<span class="gp gp-VirtualEnv">(Pdb)</span>
+</pre></div>
+</div>
+<p>Python has stopped on line 8 of <code class="docutils literal notranslate"><span class="pre">examples/divide_by_zero_with_pdp.py</span></code>. You can
+now look at the values of any variables, run Python functions and even change
+the program state before continuing.</p>
+<p>Here are some useful pdb commands:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Show current location</p>
+<ul>
+<li><p><strong>list</strong> Print a few lines of code around the current position.</p></li>
+<li><p><strong>where</strong> Print the current position and the functions that were called
+to get there (same as the stack trace printed when an exception is raised).</p></li>
+</ul>
+</li>
+<li><p>Work with breakpoints</p>
+<ul>
+<li><p><strong>break</strong> <code class="docutils literal notranslate"><span class="pre">[([filename:]lineno</span> <span class="pre">|</span> <span class="pre">function)</span> <span class="pre">[,</span> <span class="pre">condition]]</span></code> Set a new breakpoint to a specific line or function. With the optional condition statement, the program is stopped only if the condition evaluates True.</p></li>
+<li><p><strong>break</strong> List all breaks</p></li>
+<li><p><strong>disable #</strong> disables a breakpoint</p></li>
+<li><p><strong>clear #</strong> removes a breakpoint</p></li>
+</ul>
+</li>
+<li><p>Continue execution</p>
+<ul>
+<li><p><strong>next</strong> Execute the current line and move to the next one.</p></li>
+<li><p><strong>until</strong> Execute until you reach next line (useful in loops)</p></li>
+<li><p><strong>step</strong> If the line contains a function, move into it. Otherwise execute
+the current line.</p></li>
+<li><p><strong>continue:</strong> Run until the next breakpoint</p></li>
+</ul>
+</li>
+<li><p>Move point of view</p>
+<ul>
+<li><p><strong>up</strong> Move to the function that called this one (up the stack).</p></li>
+<li><p><strong>down</strong> Move to the function called from this one (down the stack).</p></li>
+</ul>
+</li>
+<li><p>Print variables</p>
+<ul>
+<li><p><strong>p variable</strong> Print the value of an expression (you can also run <code class="docutils literal notranslate"><span class="pre">print(variable)</span></code>)</p></li>
+<li><p><strong>display variable</strong> Display the value of the expression if it changed</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>It is also possible to modify variable values within the program:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">python</span> <span class="n">examples</span><span class="o">/</span><span class="n">divide_by_zero_with_pdp</span><span class="o">.</span><span class="n">py</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">u</span><span class="o">/</span><span class="mi">54</span><span class="o">/</span><span class="n">sjjamsa</span><span class="o">/</span><span class="n">unix</span><span class="o">/</span><span class="n">debugCourse</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">debugging</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">divide_by_zero_with_pdp</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">b</span> <span class="mi">18</span><span class="p">,</span> <span class="n">denom</span><span class="o">==</span><span class="mi">0</span>
+<span class="n">Breakpoint</span> <span class="mi">1</span> <span class="n">at</span> <span class="o">/</span><span class="n">u</span><span class="o">/</span><span class="mi">54</span><span class="o">/</span><span class="n">sjjamsa</span><span class="o">/</span><span class="n">unix</span><span class="o">/</span><span class="n">debugCourse</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">debugging</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">divide_by_zero_with_pdp</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">18</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">u</span><span class="o">/</span><span class="mi">54</span><span class="o">/</span><span class="n">sjjamsa</span><span class="o">/</span><span class="n">unix</span><span class="o">/</span><span class="n">debugCourse</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">debugging</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">divide_by_zero_with_pdp</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span><span class="n">calc_average</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">enum</span> <span class="o">/</span> <span class="n">denom</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">p</span> <span class="n">denom</span>
+<span class="mi">0</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">denom</span><span class="o">=</span><span class="mf">1.0</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">p</span> <span class="n">denom</span>
+<span class="mf">1.0</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="watching-variables">
+<h2>Watching variables<a class="headerlink" href="#watching-variables" title="Permalink to this headline"></a></h2>
+<p>Debuggers can often watch a specific variable for changes but, <code class="docutils literal notranslate"><span class="pre">pdb</span></code> does not have that feature. Instead, You can use  <a class="reference external" href="https://pypi.org/project/watchpoints/">Watchpoints</a>, which  implements a variable monitor.</p>
+<p>The package is available from PyPi:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip install watchpoints
+</pre></div>
+</div>
+<p>Afterwards you can use it fairly simply:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">watchpoints</span> <span class="kn">import</span> <span class="n">watch</span>
+<span class="n">watch</span><span class="p">(</span><span class="n">myVariable</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The file <code class="docutils literal notranslate"><span class="pre">examples/divide_by_zero_with_watchpoints.py</span></code> serves as an example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python examples/divide_by_zero_with_watchpoints.py</span>
+</pre></div>
+</div>
+<p>Watchpoints have further features, such as:</p>
+<ul class="simple">
+<li><p>Watching the <strong>variable</strong> holding an object</p></li>
+<li><p>Watching the <strong>object</strong> stored in some variable</p></li>
+<li><p>Conditional watchpoints</p></li>
+<li><p>Integrates with pdb: <code class="docutils literal notranslate"><span class="pre">watch.config(pdb=True)</span></code></p></li>
+</ul>
+</section>
+<section id="pdb-in-various-environments">
+<h2>Pdb in various environments<a class="headerlink" href="#pdb-in-various-environments" title="Permalink to this headline"></a></h2>
+<section id="pdb-with-ipython-ipdb">
+<h3>pdb with iPython: ipdb<a class="headerlink" href="#pdb-with-ipython-ipdb" title="Permalink to this headline"></a></h3>
+<p>You can turn on automatic calling of the pdb debugger after an exception:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ipython --pdb examples/divide_by_zero.py
+</pre></div>
+</div>
+<p>There is also a magic command to enable pdb:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">pdb</span>
+</pre></div>
+</div>
+<p>To run a script with the debugger, use <code class="docutils literal notranslate"><span class="pre">-d</span></code>. The debugger will stop at the first line of the script.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="n">examples</span><span class="o">/</span><span class="n">divide_by_zero</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="pdb-with-jupyter">
+<h3>pdb with jupyter<a class="headerlink" href="#pdb-with-jupyter" title="Permalink to this headline"></a></h3>
+<p>Internally, jupyter uses ipdb, so many things works as in normal command line <code class="docutils literal notranslate"><span class="pre">ipython</span></code>.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">%pdb</span></code>-magical command enables automatics start of <code class="docutils literal notranslate"><span class="pre">ipdb</span></code> in case of an Exception.</p></li>
+<li><p>Alternatively, you can use the <code class="docutils literal notranslate"><span class="pre">%debug</span></code> magic command to initiate <code class="docutils literal notranslate"><span class="pre">ipdb</span></code> in post-mortem after the Exception has been printed.</p></li>
+</ul>
+</section>
+<section id="pdb-with-spyder">
+<h3>pdb with spyder<a class="headerlink" href="#pdb-with-spyder" title="Permalink to this headline"></a></h3>
+<p>The ipdb is <a class="reference external" href="https://docs.spyder-ide.org/5/panes/debugging.html">available also in spyder</a>.</p>
+</section>
+</section>
+<section id="alternatives-for-pdb">
+<h2>Alternatives for pdb<a class="headerlink" href="#alternatives-for-pdb" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>The GNU debugger <code class="docutils literal notranslate"><span class="pre">gdb</span></code> has python macros for CPython. It can attach to a running python process.</p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/pdbpp/">pdb++</a> is meant to be a drop-in replacement for pdb</p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/pudb/">Pudb</a> strives to provide all the niceties of modern GUI-based debuggers in a more lightweight and keyboard-friendly package.</p></li>
+<li><p>PyCharm has its own <a class="reference external" href="https://www.jetbrains.com/pycharm/features/debugger.html">debugger</a>.</p></li>
+</ul>
+</div></blockquote>
+<p>If you do use <code class="docutils literal notranslate"><span class="pre">print()</span></code>, it may not immediately print out your debug message. You may need to use the optional parameter <code class="docutils literal notranslate"><span class="pre">flush=True</span></code> to <code class="docutils literal notranslate"><span class="pre">print()</span></code>. Alternatively, setting the <a class="reference external" href="https://docs.python.org/3/using/cmdline.html#environment-variables">environment variable</a> <code class="docutils literal notranslate"><span class="pre">PYTHONUNBUFFERED</span></code> to a non-empty string may be enough to force immediate output.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../defensive-programming/" class="btn btn-neutral float-left" title="Defensive Programming" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../exercises/" class="btn btn-neutral float-right" title="Exercises" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jarno Rantaharju, Simppa Äkäslompolo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

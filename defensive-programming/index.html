@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Defensive Programming &mdash; Debugging Python  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="The Python Debugger" href="../python-debugger/" />
+    <link rel="prev" title="Python features relevant for debugging" href="../features/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> Debugging Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/">Python features relevant for debugging</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Defensive Programming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#reporting-un-expected-state">Reporting (un)expected state</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checks-while-writing">Checks while writing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#divide-and-conquer">Divide and conquer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#document-well">Document well</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python-debugger/">The Python Debugger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/">Exercises</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">Debugging Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a> &raquo;</li>
+      <li>Defensive Programming</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/defensive-programming.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="defensive-programming">
+<h1>Defensive Programming<a class="headerlink" href="#defensive-programming" title="Permalink to this headline"></a></h1>
+<section id="reporting-un-expected-state">
+<h2>Reporting (un)expected state<a class="headerlink" href="#reporting-un-expected-state" title="Permalink to this headline"></a></h2>
+<ul>
+<li><p>Assertions check for user defined conditions and raise an exception if the condition is False. <a class="reference external" href="https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement">The syntax is</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">expression0</span>
+
+<span class="k">assert</span> <span class="n">expression1</span><span class="p">,</span> <span class="n">expression2</span>
+
+<span class="c1"># Which is equivalent to:</span>
+
+<span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">expression0</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">AssertionError</span>
+
+<span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">expression1</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">expression2</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Raising Exceptions</p>
+<p>In a more complex case you could <a class="reference external" href="https://docs.python.org/3/tutorial/errors.html">raise a custom exception</a> that carries the exact meaning you wish to transfer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">mySpecialError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot; This error is raised in a special situation.  &quot;&quot;&quot;</span>
+   <span class="k">pass</span>
+
+<span class="k">if</span> <span class="n">myValue</span> <span class="o">&lt;</span> <span class="n">myLimit</span><span class="p">:</span>
+   <span class="k">raise</span> <span class="n">mySpecialError</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p><a class="reference external" href="https://docs.python.org/3/howto/logging.html#logging-basic-tutorial">Use loggers to easily turn on and off your debug writes</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Warn!&#39;</span><span class="p">)</span>        <span class="c1"># Printed by default</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Info!&#39;</span><span class="p">)</span>           <span class="c1"># Need to ask for more verbose</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;details...&#39;</span><span class="p">)</span>     <span class="c1"># Need to ask for much more verbose</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The basic idea of loggers is to provide a framework that makes it convenient to choose the current verbosity of the program depending on simple centralized run-time setting.</p></li>
+<li><p>The logger framework can do formatting of the messages, such as including the time.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="checks-while-writing">
+<h2>Checks while writing<a class="headerlink" href="#checks-while-writing" title="Permalink to this headline"></a></h2>
+<p>Using On-line linting and IDEs can help you fix bugs as you type!</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://pylint.pycqa.org/en/latest/intro.html">Pylint</a> is an off-line tool that can check your code for formatting and for certain logical errors that could hint at hidden problems.</p></li>
+<li><p>IDEs like spyder, pycharm, eclipse and vscode can warn you of undefined and unused variables, bad syntax and perform further diagnostics of your code while you write.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="divide-and-conquer">
+<h2>Divide and conquer<a class="headerlink" href="#divide-and-conquer" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Separate objects and implement clear interfaces</p></li>
+<li><p>Unit testing</p>
+<ul>
+<li><p>There are a number of python frameworks for unit testing, e.g. <a class="reference external" href="https://docs.python.org/3/library/unittest.html">the built in unittest</a> and <a class="reference external" href="https://docs.pytest.org/">pytest</a>.</p></li>
+<li><p>Preferrably run automatically in a continuous integration setup</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="document-well">
+<h2>Document well<a class="headerlink" href="#document-well" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>You can give <a class="reference external" href="https://docs.python.org/3/library/typing.html">type hints</a> about what types are expected, but it is only documentation, not enforced by the runtime.</p></li>
+<li><p><a class="reference external" href="https://peps.python.org/pep-0257/">Docstrings</a> should include i.a. information about the parameters and return values of functions.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../features/" class="btn btn-neutral float-left" title="Python features relevant for debugging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../python-debugger/" class="btn btn-neutral float-right" title="The Python Debugger" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jarno Rantaharju, Simppa Äkäslompolo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

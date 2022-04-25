@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python features relevant for debugging &mdash; Debugging Python  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Defensive Programming" href="../defensive-programming/" />
+    <link rel="prev" title="Introduction" href="../introduction/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> Debugging Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python features relevant for debugging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python-is-an-interpreted-language">Python is an interpreted language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#datatypes-strongly-and-dynamically-typed">Datatypes – strongly and dynamically typed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scoping">Scoping</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mutable-vs-immutable-datatypes">Mutable vs immutable datatypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions-can-have-default-arguments">Functions can have default arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-management">Memory management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependency-issues">Dependency issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-environments">Virtual environments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-packaged-python-code">Working with packaged python code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#error-messages">Error Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../defensive-programming/">Defensive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python-debugger/">The Python Debugger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/">Exercises</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">Debugging Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a> &raquo;</li>
+      <li>Python features relevant for debugging</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/features.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-features-relevant-for-debugging">
+<h1>Python features relevant for debugging<a class="headerlink" href="#python-features-relevant-for-debugging" title="Permalink to this headline"></a></h1>
+<section id="python-is-an-interpreted-language">
+<h2>Python is an interpreted language<a class="headerlink" href="#python-is-an-interpreted-language" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Python is interpreted</p>
+<ul>
+<li><p>There is no compilation phase, just syntax checking, then runtime</p></li>
+<li><p>You can pre-process in IDE or a separate linting tool. A few more words on this later.</p></li>
+</ul>
+</li>
+<li><p>Syntax errors are easy to spot. They raise an exception immediately when you try to run the code.</p>
+<ul>
+<li><p>Indentation problems are most common. Many text editors can show you different types of white space (tabs, spaces…)</p></li>
+<li><p>Parenthesis and quotation mark mismatch as well</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="datatypes-strongly-and-dynamically-typed">
+<h2>Datatypes – strongly and dynamically typed<a class="headerlink" href="#datatypes-strongly-and-dynamically-typed" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><ul>
+<li><p>Python is a strongly, but dynamically typed language:</p>
+<ul class="simple">
+<li><p>Strong: The type of a runtime object does not change automatically.</p></li>
+<li><p>Dynamic: Runtime objects have a specific type instead of variables having a type.</p>
+<ul>
+<li><p>Since there are no types for variables, there is no way to force a specific type e.g. for a argument of a function.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Python feels like a weakly typed language, that is you can usually pass a variable to a function, and it (often) just works. This is achieved with duck-typing and sometimes with operator overloading</p>
+<ul>
+<li><p>If the object has the expected methods and instance variables of the expected type, then it is generally of a compatible type. (duck-typing)</p></li>
+<li><p>Operators and methods can be overwritten in a derived class.</p></li>
+<li><p>For example, does it matter if an object is a sequence or a mapping, as long as you can index it conveniently?</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x_list</span> <span class="o">=</span> <span class="p">[</span>    <span class="s1">&#39;a&#39;</span><span class="p">,</span>     <span class="s1">&#39;b&#39;</span><span class="p">,</span>     <span class="s1">&#39;c&#39;</span> <span class="p">]</span>
+<span class="n">y_dict</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">:</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>  <span class="mi">1</span> <span class="p">:</span><span class="s1">&#39;b&#39;</span><span class="p">,</span>  <span class="mi">2</span> <span class="p">:</span><span class="s1">&#39;c&#39;</span> <span class="p">}</span>
+<span class="n">x_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>    <span class="c1"># &#39;b&#39;</span>
+<span class="n">y_dict</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>    <span class="c1"># &#39;b&#39;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This leads to errors:</p>
+<ul>
+<li><p>what happens with <code class="docutils literal notranslate"><span class="pre">x_list[0:2]</span></code> and <code class="docutils literal notranslate"><span class="pre">y_dict[0:2]</span></code>?</p></li>
+<li><p>what happens with <code class="docutils literal notranslate"><span class="pre">y_dict.keys()</span></code> and <code class="docutils literal notranslate"><span class="pre">x_list.keys()</span></code>?</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>You can give <a class="reference external" href="https://docs.python.org/3/library/typing.html">type hints</a> about what types are expected, but it is only documentation, not enforced by the runtime.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">square</span><span class="p">(</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+   <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="scoping">
+<h2>Scoping<a class="headerlink" href="#scoping" title="Permalink to this headline"></a></h2>
+<p>Python resolves variables using the LEGB rule or the <strong>L</strong>ocal, <strong>E</strong>nclosing, <strong>G</strong>lobal, <strong>B</strong>uilt-in rule.</p>
+<blockquote>
+<div><ul>
+<li><p>Setting a name defined in a higher scope defines a new one.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">set_x</span><span class="p">():</span>
+   <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">set_x</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1"># output: 2</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>If you wish to set the value of a variable from outer scope or a global variable within a function or loop, you can use the keywords <code class="docutils literal notranslate"><span class="pre">nonlocal</span></code> and <code class="docutils literal notranslate"><span class="pre">global</span></code>.</p></li>
+</ul>
+</li>
+<li><p>Class variables have a similar effect. Derived classes share the class variables of the base class, unless re-defined.</p></li>
+</ul>
+</div></blockquote>
+<section id="mutable-vs-immutable-datatypes">
+<h3>Mutable vs immutable datatypes<a class="headerlink" href="#mutable-vs-immutable-datatypes" title="Permalink to this headline"></a></h3>
+<ul>
+<li><p>An example: A list can be mutated in a function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alternate</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+   <span class="sd">&#39;&#39;&#39; Return a copy of a list with every second</span>
+<span class="sd">   element inverted</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
+      <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+   <span class="k">return</span> <span class="n">values</span>
+
+<span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">alternated_l</span> <span class="o">=</span> <span class="n">alternate</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="c1"># [ -1, 2, -3, 4 ]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Not all variables can be  <a class="reference external" href="https://docs.python.org/3/reference/datamodel.html">mutated</a>:</p>
+<ul class="simple">
+<li><p>Mutable types are passed by reference</p></li>
+<li><p>Mutable types are bound to a new name on assignment</p></li>
+<li><p>Immutable types are passed by value</p></li>
+<li><p>Immutable types are copied on assignment</p></li>
+</ul>
+</li>
+<li><p>How do you know if a type is mutable or not?</p>
+<ul>
+<li><p>numbers are immutable (e.g. Float)</p></li>
+<li><p>immutable sequences.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>String</p></li>
+<li><p>Tuples (The objects referenced in a Tuple may be mutable.)</p></li>
+<li><p>Byte</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>immutable sets:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Frozen set</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>mutable: lists, dictionaries, most objects</p></li>
+</ul>
+</li>
+<li><p>The contents of a mutable datatype cannot be changed; a new one must be always created:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>      <span class="c1"># 123456</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>      <span class="c1"># 123777</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>      <span class="c1"># 234567</span>
+<span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>      <span class="c1"># 234567</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>This applies also with numpy arrays. Remember, that normal assignment in numpy is not a copy, but a new name for the same data.</p></li>
+</ul>
+</section>
+<section id="functions-can-have-default-arguments">
+<h3>Functions can have default arguments<a class="headerlink" href="#functions-can-have-default-arguments" title="Permalink to this headline"></a></h3>
+<ul>
+<li><p>Default arguments are evaluated only once.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">append_to_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">append_to</span><span class="o">=</span><span class="p">[]):</span>
+   <span class="sd">&#39;&#39;&#39; Add a value to a list. If no list if given,</span>
+<span class="sd">   create a new one.</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="n">append_to</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">append_to</span>
+
+<span class="n">l</span> <span class="o">=</span> <span class="n">append_to_list</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># [1]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+
+<span class="n">l</span> <span class="o">=</span> <span class="n">append_to_list</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># [1,2]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">append_to</span></code> is stored as long as the function <code class="docutils literal notranslate"><span class="pre">append_to_list</span></code> is stored</p>
+<ul>
+<li><p>The values are stored in the <code class="docutils literal notranslate"><span class="pre">__defaults__</span></code> attribute of the function.</p></li>
+<li><p>Take special care with functions with default values calling functions with default values. Best practice is often to use None as the default value and then fill in the default value in the function body.</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="simple">
+<dt>This is similar to the bugs one may encounter due to the late-binding behaviour in python closures. In a closure, an outer function returns a function, and the returned function uses a variable from the outer function.</dt><dd><ul class="simple">
+<li><p>The variables referenced from the outer functions scope are stored in the <code class="docutils literal notranslate"><span class="pre">__closure__</span></code> attribute of the returned function. However, these variables are looked up only at the time when the returned function is executed. There are subtle effects in play here.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+<section id="memory-management">
+<h2>Memory management<a class="headerlink" href="#memory-management" title="Permalink to this headline"></a></h2>
+<p>Python has automatic memory management. Unreachable runtime objects may be automatically removed from memory. However, this garbage collection is not guaranteed to happen.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>You cannot rely on the finalizer method <code class="docutils literal notranslate"><span class="pre">__del__()</span></code> to be executed</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">del</span></code>-statement only reduces the reference count of objects.</p></li>
+<li><p>if you are running out of memory:</p>
+<ul>
+<li><p>Size of an object can be checked with <code class="docutils literal notranslate"><span class="pre">sys.getsizeof()</span></code>, but it is a <em>shallow</em> estimate of the size.</p></li>
+<li><p>Build in module <code class="docutils literal notranslate"><span class="pre">gc</span></code> provides an interface to the Garbage collector</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="dependency-issues">
+<h2>Dependency issues<a class="headerlink" href="#dependency-issues" title="Permalink to this headline"></a></h2>
+<p>Python looks for packages in</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>First in user’s own Python packages (in $HOME/.local/lib/python…)</p></li>
+<li><p>Then system directories (like /usr/local in Linux)</p></li>
+</ol>
+</div></blockquote>
+<p>The exact list of folders your python is searching is defined in <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.</p>
+<p>The same is true when uninstalling packages with pip.
+So if you’re not sure where a package is, uninstall it
+at least twice.</p>
+<p>There are many ways to install a package and these don’t always work together.</p>
+<blockquote>
+<div><ul>
+<li><p>System package manager (apt, …)</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>apt install python-scipy
+</pre></div>
+</div>
+</li>
+<li><p>System level pip</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip install scipy
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Don’t mix pip with system installers. They don’t track each others packages, but do install in the same place.</p></li>
+</ul>
+</li>
+<li><p>User level pip</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip install --user scipy
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Don’t need to be admin</p></li>
+<li><p>These will be checked first when importing</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<section id="virtual-environments">
+<h3>Virtual environments<a class="headerlink" href="#virtual-environments" title="Permalink to this headline"></a></h3>
+<p>Virtual environments make dependency management easier.
+They essentially force Python to look for packages in
+one place. This way you always know what packages your
+software needs, and when you get stuck with dependency
+problems, you can remove the environment and reinstall.</p>
+<p>Examples of virtual environment managers for Python:</p>
+<blockquote>
+<div><ul>
+<li><p><a class="reference external" href="https://pipenv.pypa.io/en/latest/">Pipenv</a></p></li>
+<li><p><a class="reference external" href="https://virtualenv.pypa.io/en/latest/">Virtualenv</a></p>
+<ul class="simple">
+<li><p>Subset of virtualenv is offered in the standard module <a class="reference external" href="https://docs.python.org/3/library/venv.html">venv</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://docs.conda.io/">Conda</a></p>
+<ul>
+<li><p><a class="reference external" href="https://anaconda.org/conda-forge/mamba">Mamba</a> is a fast drop-in replacement, if it takes too long to install packages with Conda.</p></li>
+<li><p>To use pip with conda, always run</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda install pip
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="working-with-packaged-python-code">
+<h3>Working with packaged python code<a class="headerlink" href="#working-with-packaged-python-code" title="Permalink to this headline"></a></h3>
+<p>You can inspect the source code of installed packages with an editor. The file location you can get from the variable <code class="docutils literal notranslate"><span class="pre">__file__</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pdb</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span> <span class="c1"># /u/54/sjjamsa/unix/conda/miniconda3/envs/sphinx/lib/python3.10/pdb.py</span>
+</pre></div>
+</div>
+<p>If you download the source code, (e.g. with git), you can install the package so that changes to source code do not require re-installing the package:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> my_package_folder
+<span class="gp">$ </span>pip install -e ./
+</pre></div>
+</div>
+</section>
+</section>
+<section id="error-messages">
+<h2>Error Messages<a class="headerlink" href="#error-messages" title="Permalink to this headline"></a></h2>
+<p>Try running</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python examples/divide_by_zero.py
+</pre></div>
+</div>
+<p>This will throw an error:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Traceback (most recent call last):</span>
+<span class="go">File &quot;examples/divide_by_zero.py&quot;, line 32, in &lt;module&gt;</span>
+<span class="go">  averages = conditional_averages(numbers)</span>
+<span class="go">File &quot;examples/divide_by_zero.py&quot;, line 24, in conditional_averages</span>
+<span class="go">  average = calc_average(copy)</span>
+<span class="go">File &quot;examples/divide_by_zero.py&quot;, line 14, in calc_average</span>
+<span class="go">  return enum / denom</span>
+<span class="go">ZeroDivisionError: division by zero</span>
+</pre></div>
+</div>
+<p>Whenever Python encounters an error (un-caught exception, to be exact), it prints a
+trace-back like the one above. It’s best to start
+reading of from bottom.</p>
+<p>The last line shows the error that was encountered,
+and often some useful additional information. In this
+case all we get is “division by zero”, which is good
+to know but does not tell us exactly what’s wrong.</p>
+<p>The two lines above give us the line where the problem
+is. Usually there are several lines in libraries we
+did not write ourselves, so keep reading until you
+find one you can edit.</p>
+<p>Maybe you can figure out the problem, but will later use a debugger to figure it out.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../introduction/" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../defensive-programming/" class="btn btn-neutral float-right" title="Defensive Programming" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jarno Rantaharju, Simppa Äkäslompolo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

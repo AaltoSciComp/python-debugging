@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exercises &mdash; Debugging Python  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="prev" title="The Python Debugger" href="../python-debugger/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> Debugging Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/">Python features relevant for debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defensive-programming/">Defensive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python-debugger/">The Python Debugger</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Exercises</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ex-0-try-debugging-divide-by-zero-py">Ex 0. Try debugging divide_by_zero.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ex-1-install-double-pendulum">Ex 1. Install double pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ex-2-fix-the-broken-pendulum">Ex 2. Fix the broken pendulum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ex-3-defend">Ex 3. Defend!</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">Debugging Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a> &raquo;</li>
+      <li>Exercises</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/exercises.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="exercises">
+<h1>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline"></a></h1>
+<p>You can try the debugger and tools on your own code, or do the following artificial exercises:</p>
+<section id="ex-0-try-debugging-divide-by-zero-py">
+<h2>Ex 0. Try debugging divide_by_zero.py<a class="headerlink" href="#ex-0-try-debugging-divide-by-zero-py" title="Permalink to this headline"></a></h2>
+<p>Warmup:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/AaltoSciComp/python-debugging.git
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Try the debugger in <code class="docutils literal notranslate"><span class="pre">examples/divide_by_zero.py</span></code> in post-mortem mode.</p></li>
+<li><p>Try the debugger in live mode with <code class="docutils literal notranslate"><span class="pre">divide_by_zero_with_pdp.py</span></code>.</p></li>
+</ul>
+</section>
+<section id="ex-1-install-double-pendulum">
+<h2>Ex 1. Install double pendulum<a class="headerlink" href="#ex-1-install-double-pendulum" title="Permalink to this headline"></a></h2>
+<p>The exercises 1. &amp; 2. will be using the following repository:
+<a class="reference external" href="https://github.com/AaltoSciComp/double-pendulum">https://github.com/AaltoSciComp/double-pendulum</a></p>
+<p>This code shows a double pendulum in action. A gui is needed for it to run, but the required libraries are available for Linux, Windows, Mac, …</p>
+<ul>
+<li><p>Try running the code without installation:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/AaltoSciComp/double-pendulum.git
+<span class="gp">$ </span><span class="nb">cd</span> double-pendulum/
+<span class="gp">$ </span>python double-pendulum
+</pre></div>
+</div>
+<p>This step includes a learning goal: Recognize a missing python package, <code class="docutils literal notranslate"><span class="pre">pygame</span></code> in this case. You can install the package manually with <code class="docutils literal notranslate"><span class="pre">pip</span></code>, or let the automatic installation system install it in the next phase.</p>
+</li>
+<li><p>Install the source code as a package.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git commit -a -m <span class="s2">&quot;My changes to the main branch&quot;</span> <span class="c1"># in case you made any</span>
+<span class="gp">$ </span>git checkout pip_installable
+<span class="gp">$ </span>pip install -e ./
+<span class="gp">$ </span>double-pendulum
+</pre></div>
+</div>
+<p>or if you need to install with the <code class="docutils literal notranslate"><span class="pre">--user</span></code></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git commit -a -m <span class="s2">&quot;My changes to the main branch&quot;</span> <span class="c1"># in case you made any</span>
+<span class="gp">$ </span>git checkout pip_installable
+<span class="gp">$ </span>pip install --user -e ./
+<span class="gp">$ </span><span class="nb">alias</span> double-pendulum<span class="o">=</span><span class="k">$(</span> python3 -c <span class="s2">&quot;import site; print(site.USER_BASE)&quot;</span> <span class="k">)</span>/bin/double-pendulum <span class="c1"># This is for bash/zsh shells. For C-family of shells, drop the &quot;=&quot;.</span>
+<span class="gp">$ </span>double-pendulum
+</pre></div>
+</div>
+</li>
+<li><p>Confirm that editing the files has immediate effect. Add a <code class="docutils literal notranslate"><span class="pre">print()</span></code> or a <code class="docutils literal notranslate"><span class="pre">break()</span></code> statement in the <code class="docutils literal notranslate"><span class="pre">main()</span></code>-function in <code class="docutils literal notranslate"><span class="pre">double-pendulum/doublependulum/dp.py</span></code>.</p></li>
+</ul>
+</section>
+<section id="ex-2-fix-the-broken-pendulum">
+<h2>Ex 2. Fix the broken pendulum<a class="headerlink" href="#ex-2-fix-the-broken-pendulum" title="Permalink to this headline"></a></h2>
+<p>The pendulum is broken. Find the corrupted line. You may need to know, that the code uses four generalized coordinates: two for the angles of the hands (<code class="docutils literal notranslate"><span class="pre">t</span></code>) and two for the angular velocities of the hands (<code class="docutils literal notranslate"><span class="pre">w</span></code>). Try finding where the angle goes to zero.</p>
+<ul>
+<li><p>First get the broken version:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git commit -a -m <span class="s2">&quot;My changes to the pip_installable branch&quot;</span> <span class="c1"># in case you made any</span>
+<span class="gp">$ </span>git checkout broken_pendulum
+</pre></div>
+</div>
+</li>
+<li><p>Here is one way to start the debugger:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m pdb doublependulum/dp.py
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>You may wish to set a breakpoint on line 205 of dp.py and start exploring from there.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="ex-3-defend">
+<h2>Ex 3. Defend!<a class="headerlink" href="#ex-3-defend" title="Permalink to this headline"></a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/AaltoSciComp/python-debugging.git
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Add an assertion with a descriptive message or throw a custom exception in <code class="docutils literal notranslate"><span class="pre">examples/divide_by_zero.py</span></code>.</p>
+<ul>
+<li><p>How is this better than the divide by zero Exception?</p></li>
+</ul>
+</li>
+<li><p>Add typehints and expand the documentation in <code class="docutils literal notranslate"><span class="pre">examples/indexing.py</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../python-debugger/" class="btn btn-neutral float-left" title="The Python Debugger" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jarno Rantaharju, Simppa Äkäslompolo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
